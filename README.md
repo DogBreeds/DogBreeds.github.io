@@ -4,14 +4,14 @@ A dependency-free static dog-breed guide designed for GitHub Pages.
 
 ## What is included
 
-- Quiz that starts only after clicking **Take the Quiz** and scores situational lifestyle answers rather than acting like a hard filter
-- Collapsible multi-select breed filter plus Large / Medium / Small browsing
+- One-question-at-a-time quiz that starts only after clicking **Take the Quiz**, begins with owner experience, and uses lifestyle questions to score overall matches
+- Collapsible multi-select filter inside Large / Medium / Small browsing; the current size is preselected automatically
 - 32 curated breeds
 - Breed facts and relative trait stats
 - Specific disadvantages and notable health tradeoffs
 - Multiple freely licensed photos per breed from Wikimedia Commons
 - Common coat / color variations with separate example photos
-- Petfinder adoption search by breed and ZIP/postal code
+- On-page nearby shelter and rescue search by U.S. ZIP code
 - Breed-specific Amazon product searches
 - Cream, brown, moss, blue and salmon visual system with fixed, irregular paw-print trails
 - Square corners throughout
@@ -45,11 +45,7 @@ const AMAZON_TAG = "YOUR-TAG-20";
 
 with the Amazon Associates tracking ID. If using a marketplace other than Amazon.com, also update `AMAZON_DOMAIN`.
 
-Product searches are breed-specific. Size-dependent gear gives a typical range, but the site tells users to measure the individual dog before ordering.
-
-## Shelter / adoption search
-
-The ZIP-code form opens a Petfinder breed search rather than storing a Petfinder API secret in a public GitHub Pages repository. A later version can render live shelter results inside the page through a small serverless backend.
+Product searches are breed-specific and use the breed’s typical size and coat needs to make the Amazon search more relevant.
 
 ## Photos and variations
 
@@ -60,3 +56,7 @@ Before a commercial launch, do a final license audit of the selected files and p
 ## Adding breeds
 
 Add another object to `BREEDS` in `breeds.js`. The browse pages, filter, quiz scoring, breed page, product links and photo credits update automatically. Add corresponding variation search terms to `BREED_VARIATIONS` in `app.js` when useful.
+
+
+## Shelter search
+The breed page uses Zippopotam.us to locate a U.S. ZIP code and OpenStreetMap/Overpass data to show nearby animal shelters and dog rescues directly on the page. It does not redirect to Petfinder.

@@ -136,7 +136,7 @@ const BREEDS = [
     products:{harness:"small-medium Y-front harness, roughly 20–28 inch chest", shampoo:"corgi double coat deshedding shampoo", grooming:"undercoat rake and grooming mitt", bed:"supportive low-entry medium bed or 30–36 inch crate"}
   },
   {
-    id: "newfoundland", name: "Newfoundland", size: "large", category: "Newfoundland (dog)", photo: "", petfinder: "newfoundland-dog",
+    id: "newfoundland", name: "Newfoundland", size: "large", category: "Newfoundland (dog)", photo: "Newfoundland dog.jpg", petfinder: "newfoundland-dog",
     profile: {energy:2, experience:2, exercise:2, grooming:4, shedding:5, apartment:2, children:5, working:4},
     facts: {weight:"100–150 lb", height:"26–28 in", lifespan:"9–10 years", coat:"Heavy water-resistant double coat", purpose:"Water rescue and draft work", exercise:"About 1 hour/day, avoiding overexertion in heat"},
     stats: {trainability:82, energy:46, exercise:54, stimulation:62, sociability:92, independence:38, shedding:94, grooming:84, barking:34},
@@ -144,7 +144,7 @@ const BREEDS = [
     products:{harness:"XXL heavy-duty harness, roughly 34–48 inch chest", shampoo:"Newfoundland double coat conditioning and deshedding shampoo", grooming:"large undercoat rake, pin brush and metal comb", bed:"giant orthopedic dog bed or 48–54 inch crate"}
   },
   {
-    id: "doberman-pinscher", name: "Doberman Pinscher", size: "large", category: "Dobermann", photo: "", petfinder: "doberman-pinscher",
+    id: "doberman-pinscher", name: "Doberman Pinscher", size: "large", category: "Dobermann", photo: "Doberman Dog.jpg", petfinder: "doberman-pinscher",
     profile: {energy:4, experience:3, exercise:4, grooming:1, shedding:2, apartment:3, children:4, working:5},
     facts: {weight:"60–100 lb", height:"24–28 in", lifespan:"10–12 years", coat:"Short, smooth coat", purpose:"Personal protection and working companion", exercise:"About 1.5–2 hours/day"},
     stats: {trainability:94, energy:86, exercise:88, stimulation:91, sociability:68, independence:42, shedding:38, grooming:22, barking:62},
@@ -152,7 +152,7 @@ const BREEDS = [
     products:{harness:"large athletic Y-front harness, roughly 27–36 inch chest", shampoo:"Doberman short coat gentle dog shampoo", grooming:"rubber curry brush and grooming mitt", bed:"large orthopedic bed or 42 inch crate"}
   },
   {
-    id: "boxer", name: "Boxer", size: "large", category: "Boxer (dog)", photo: "", petfinder: "boxer",
+    id: "boxer", name: "Boxer", size: "large", category: "Boxer (dog)", photo: "Dog boxer.jpg", petfinder: "boxer",
     profile: {energy:4, experience:2, exercise:4, grooming:1, shedding:2, apartment:3, children:4, working:4},
     facts: {weight:"50–80 lb", height:"21.5–25 in", lifespan:"10–12 years", coat:"Short, smooth coat", purpose:"Working, guarding and companion work", exercise:"About 1.5 hours/day"},
     stats: {trainability:80, energy:88, exercise:84, stimulation:78, sociability:86, independence:40, shedding:42, grooming:20, barking:48},
@@ -160,7 +160,7 @@ const BREEDS = [
     products:{harness:"large broad-chest Y-front harness, roughly 25–35 inch chest", shampoo:"Boxer sensitive-skin short coat shampoo", grooming:"rubber grooming mitt", bed:"large supportive bed or 36–42 inch crate"}
   },
   {
-    id: "rottweiler", name: "Rottweiler", size: "large", category: "Rottweiler", photo: "", petfinder: "rottweiler",
+    id: "rottweiler", name: "Rottweiler", size: "large", category: "Rottweiler", photo: "Rottweiler-dog.jpg", petfinder: "rottweiler",
     profile: {energy:3, experience:3, exercise:3, grooming:1, shedding:3, apartment:2, children:4, working:5},
     facts: {weight:"80–135 lb", height:"22–27 in", lifespan:"9–10 years", coat:"Short double coat", purpose:"Cattle driving, carting and working", exercise:"About 1–1.5 hours/day plus training"},
     stats: {trainability:91, energy:70, exercise:72, stimulation:84, sociability:62, independence:48, shedding:60, grooming:26, barking:46},
@@ -168,7 +168,7 @@ const BREEDS = [
     products:{harness:"XL heavy-duty harness, roughly 30–40 inch chest", shampoo:"Rottweiler short double coat deshedding shampoo", grooming:"rubber curry brush and undercoat tool", bed:"XL orthopedic bed or 42–48 inch crate"}
   },
   {
-    id: "greyhound", name: "Greyhound", size: "large", category: "Greyhound", photo: "", petfinder: "greyhound",
+    id: "greyhound", name: "Greyhound", size: "large", category: "Greyhound", photo: "Greyhound...JPG", petfinder: "greyhound",
     profile: {energy:2, experience:1, exercise:2, grooming:1, shedding:2, apartment:4, children:4, working:2},
     facts: {weight:"60–70 lb", height:"27–30 in", lifespan:"10–13 years", coat:"Short, fine coat", purpose:"Coursing and racing", exercise:"Daily walks plus chances to run safely"},
     stats: {trainability:70, energy:44, exercise:58, stimulation:50, sociability:78, independence:64, shedding:34, grooming:18, barking:22},
@@ -176,7 +176,7 @@ const BREEDS = [
     products:{harness:"large deep-chest escape-resistant sighthound harness, roughly 26–34 inch chest", shampoo:"Greyhound gentle short coat shampoo", grooming:"soft rubber grooming mitt", bed:"large thick orthopedic bed or 42 inch crate"}
   },
   {
-    id: "australian-cattle-dog", name: "Australian Cattle Dog", size: "medium", category: "Australian Cattle Dog", photo: "", petfinder: "australian-cattle-dog-blue-heeler",
+    id: "australian-cattle-dog", name: "Australian Cattle Dog", size: "medium", category: "Australian Cattle Dog", photo: "Australian cattle dog.jpg", petfinder: "australian-cattle-dog-blue-heeler",
     profile: {energy:5, experience:3, exercise:5, grooming:2, shedding:4, apartment:2, children:3, working:5},
     facts: {weight:"35–50 lb", height:"17–20 in", lifespan:"12–16 years", coat:"Short dense double coat", purpose:"Driving cattle over long distances", exercise:"About 2+ hours/day with mental work"},
     stats: {trainability:93, energy:98, exercise:98, stimulation:96, sociability:58, independence:62, shedding:72, grooming:34, barking:58},
@@ -184,7 +184,7 @@ const BREEDS = [
     products:{harness:"medium athletic harness, roughly 20–30 inch chest", shampoo:"Australian Cattle Dog double coat deshedding shampoo", grooming:"undercoat rake and rubber curry brush", bed:"medium-large durable bed or 36 inch crate"}
   },
   {
-    id: "english-springer-spaniel", name: "English Springer Spaniel", size: "medium", category: "English Springer Spaniel", photo: "", petfinder: "english-springer-spaniel",
+    id: "english-springer-spaniel", name: "English Springer Spaniel", size: "medium", category: "English Springer Spaniel", photo: "English-Springer-Spaniel.jpg", petfinder: "english-springer-spaniel",
     profile: {energy:4, experience:1, exercise:4, grooming:3, shedding:3, apartment:3, children:5, working:5},
     facts: {weight:"40–50 lb", height:"19–20 in", lifespan:"12–14 years", coat:"Medium double coat with feathering", purpose:"Flushing and retrieving game", exercise:"About 1.5–2 hours/day"},
     stats: {trainability:91, energy:86, exercise:86, stimulation:84, sociability:91, independence:30, shedding:62, grooming:66, barking:50},
@@ -192,7 +192,7 @@ const BREEDS = [
     products:{harness:"medium adjustable harness, roughly 21–30 inch chest", shampoo:"Springer Spaniel feathered coat conditioning shampoo", grooming:"slicker brush, comb and ear-care supplies", bed:"medium-large washable bed or 36 inch crate"}
   },
   {
-    id: "brittany", name: "Brittany", size: "medium", category: "Brittany dog", photo: "", petfinder: "brittany-spaniel",
+    id: "brittany", name: "Brittany", size: "medium", category: "Brittany dog", photo: "Brittany Spaniel standing.jpg", petfinder: "brittany-spaniel",
     profile: {energy:5, experience:2, exercise:5, grooming:2, shedding:2, apartment:2, children:4, working:5},
     facts: {weight:"30–40 lb", height:"17.5–20.5 in", lifespan:"12–14 years", coat:"Dense flat or wavy coat", purpose:"Pointing and retrieving birds", exercise:"About 2+ hours/day"},
     stats: {trainability:91, energy:98, exercise:98, stimulation:90, sociability:88, independence:36, shedding:44, grooming:42, barking:48},
@@ -200,7 +200,7 @@ const BREEDS = [
     products:{harness:"medium lightweight athletic harness, roughly 19–28 inch chest", shampoo:"Brittany medium coat gentle conditioning shampoo", grooming:"pin brush and metal comb", bed:"medium washable bed or 30–36 inch crate"}
   },
   {
-    id: "basenji", name: "Basenji", size: "medium", category: "Basenji", photo: "", petfinder: "basenji",
+    id: "basenji", name: "Basenji", size: "medium", category: "Basenji", photo: "Basenji dog.jpg", petfinder: "basenji",
     profile: {energy:4, experience:3, exercise:4, grooming:1, shedding:1, apartment:4, children:3, working:2},
     facts: {weight:"22–24 lb", height:"16–17 in", lifespan:"13–14 years", coat:"Very short fine coat", purpose:"Hunting by sight and scent", exercise:"About 1–1.5+ hours/day"},
     stats: {trainability:48, energy:82, exercise:82, stimulation:78, sociability:56, independence:95, shedding:18, grooming:14, barking:12},
@@ -208,7 +208,7 @@ const BREEDS = [
     products:{harness:"small-medium escape-resistant harness, roughly 18–26 inch chest", shampoo:"Basenji gentle short coat shampoo", grooming:"soft grooming mitt", bed:"medium warm bed or 30 inch crate"}
   },
   {
-    id: "whippet", name: "Whippet", size: "medium", category: "Whippet", photo: "", petfinder: "whippet",
+    id: "whippet", name: "Whippet", size: "medium", category: "Whippet", photo: "Whippet dog - front.jpg", petfinder: "whippet",
     profile: {energy:3, experience:1, exercise:2, grooming:1, shedding:1, apartment:5, children:4, working:2},
     facts: {weight:"25–40 lb", height:"18–22 in", lifespan:"12–15 years", coat:"Short, fine coat", purpose:"Coursing and racing small game", exercise:"Daily walks plus safe sprinting opportunities"},
     stats: {trainability:72, energy:62, exercise:62, stimulation:56, sociability:82, independence:58, shedding:24, grooming:14, barking:20},
@@ -216,7 +216,7 @@ const BREEDS = [
     products:{harness:"medium deep-chest sighthound harness, roughly 20–28 inch chest", shampoo:"Whippet gentle sensitive-skin short coat shampoo", grooming:"soft rubber grooming mitt", bed:"medium thick cushioned bed or 30–36 inch crate"}
   },
   {
-    id: "havanese", name: "Havanese", size: "small", category: "Havanese", photo: "", petfinder: "havanese",
+    id: "havanese", name: "Havanese", size: "small", category: "Havanese", photo: "A havanese dog.jpg", petfinder: "havanese",
     profile: {energy:2, experience:1, exercise:2, grooming:5, shedding:1, apartment:5, children:5, working:1},
     facts: {weight:"7–13 lb", height:"8.5–11.5 in", lifespan:"14–16 years", coat:"Long, soft, silky coat", purpose:"Companion dog", exercise:"About 45–60 minutes/day"},
     stats: {trainability:84, energy:48, exercise:48, stimulation:58, sociability:95, independence:20, shedding:14, grooming:94, barking:58},
@@ -224,7 +224,7 @@ const BREEDS = [
     products:{harness:"XS soft lightweight harness, roughly 12–18 inch chest", shampoo:"Havanese silky coat detangling and conditioning shampoo", grooming:"small pin brush, slicker brush and metal comb", bed:"small cushioned bed or 24 inch crate"}
   },
   {
-    id: "bichon-frise", name: "Bichon Frise", size: "small", category: "Bichon Frisé", photo: "", petfinder: "bichon-frise",
+    id: "bichon-frise", name: "Bichon Frise", size: "small", category: "Bichon Frisé", photo: "Bichon Frise Dogs.jpg", petfinder: "bichon-frise",
     profile: {energy:2, experience:1, exercise:2, grooming:5, shedding:1, apartment:5, children:5, working:1},
     facts: {weight:"12–18 lb", height:"9.5–11.5 in", lifespan:"14–15 years", coat:"Curly double coat", purpose:"Companion dog", exercise:"About 45–60 minutes/day"},
     stats: {trainability:80, energy:50, exercise:48, stimulation:56, sociability:94, independence:22, shedding:10, grooming:98, barking:54},
@@ -232,7 +232,7 @@ const BREEDS = [
     products:{harness:"small lightweight harness, roughly 14–20 inch chest", shampoo:"Bichon Frise white curly coat moisturizing shampoo", grooming:"small slicker brush, metal comb and clipper supplies", bed:"small washable bed or 24–30 inch crate"}
   },
   {
-    id: "papillon", name: "Papillon", size: "small", category: "Papillon (dog)", photo: "", petfinder: "papillon",
+    id: "papillon", name: "Papillon", size: "small", category: "Papillon (dog)", photo: "\"PAPILLON\" TOY DOGS.jpg", petfinder: "papillon",
     profile: {energy:3, experience:1, exercise:2, grooming:2, shedding:2, apartment:5, children:3, working:4},
     facts: {weight:"5–10 lb", height:"8–11 in", lifespan:"14–16 years", coat:"Long, fine single coat", purpose:"Companion and small sporting dog", exercise:"About 45–60 minutes/day plus play or training"},
     stats: {trainability:94, energy:70, exercise:56, stimulation:82, sociability:86, independence:34, shedding:38, grooming:46, barking:72},
@@ -240,7 +240,7 @@ const BREEDS = [
     products:{harness:"XXS or XS lightweight harness, roughly 10–16 inch chest", shampoo:"Papillon fine silky coat gentle conditioning shampoo", grooming:"small pin brush and fine metal comb", bed:"toy-size bed or 18–24 inch crate"}
   },
   {
-    id: "jack-russell-terrier", name: "Jack Russell Terrier", size: "small", category: "Jack Russell Terrier", photo: "", petfinder: "jack-russell-terrier",
+    id: "jack-russell-terrier", name: "Jack Russell Terrier", size: "small", category: "Jack Russell Terrier", photo: "Jack-Russell Terrier.jpg", petfinder: "jack-russell-terrier",
     profile: {energy:5, experience:3, exercise:4, grooming:1, shedding:2, apartment:3, children:3, working:5},
     facts: {weight:"13–17 lb", height:"10–12 in", lifespan:"13–16 years", coat:"Smooth, broken or rough", purpose:"Fox hunting and vermin control", exercise:"About 1.5+ hours/day with mental work"},
     stats: {trainability:86, energy:98, exercise:90, stimulation:94, sociability:70, independence:70, shedding:42, grooming:28, barking:84},
@@ -248,7 +248,7 @@ const BREEDS = [
     products:{harness:"small secure Y-front harness, roughly 15–22 inch chest", shampoo:"Jack Russell Terrier short or broken coat gentle shampoo", grooming:"rubber curry brush or stripping tool for rough coats", bed:"small durable bed or 24–30 inch crate"}
   },
   {
-    id: "maltese", name: "Maltese", size: "small", category: "Maltese (dog)", photo: "", petfinder: "maltese",
+    id: "maltese", name: "Maltese", size: "small", category: "Maltese (dog)", photo: "Maltese dog.jpg", petfinder: "maltese",
     profile: {energy:2, experience:1, exercise:1, grooming:5, shedding:1, apartment:5, children:3, working:1},
     facts: {weight:"Under 7 lb", height:"About 7–9 in", lifespan:"12–15 years", coat:"Long, straight silky coat", purpose:"Companion dog", exercise:"About 30–45 minutes/day"},
     stats: {trainability:76, energy:42, exercise:34, stimulation:50, sociability:86, independence:30, shedding:10, grooming:98, barking:70},
