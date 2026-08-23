@@ -12,7 +12,7 @@ const BREEDS = [
     profile: {energy:4, experience:1, exercise:4, grooming:3, shedding:5, apartment:3, children:5, working:4},
     facts: {weight:"55–75 lb", height:"21.5–24 in", lifespan:"10–12 years", coat:"Dense, feathered double coat", purpose:"Retrieving game", exercise:"About 1.5–2 hours/day"},
     stats: {trainability:93, energy:80, exercise:84, stimulation:74, sociability:96, independence:28, shedding:90, grooming:62, barking:38},
-    disadvantages:["The feathered double coat sheds heavily and needs regular brushing to prevent mats.","Many Goldens stay exuberant well into adulthood and can be difficult without daily exercise and training.","The breed has meaningful inherited health risks, so long-term medical costs can be higher than expected."],
+    disadvantages:["The feathered double coat sheds heavily and needs regular brushing to prevent mats.","Many Goldens stay exuberant well into adulthood and can be difficult without daily exercise and training.","Cancer is a major health concern in Golden Retrievers, including hemangiosarcoma and lymphoma; this is one of the most important long-term risks to understand before choosing the breed."],
     products:{harness:"large adjustable harness, roughly 27–36 inch chest", shampoo:"golden retriever double coat deshedding shampoo", grooming:"undercoat rake and slicker brush", bed:"large washable orthopedic dog bed or 42 inch crate"}
   },
   {
@@ -96,14 +96,6 @@ const BREEDS = [
     products:{harness:"medium-large secure pulling-style harness, roughly 24–34 inch chest", shampoo:"husky double coat deshedding shampoo", grooming:"undercoat rake and de-shedding tool", bed:"large cooling washable bed or 36–42 inch crate"}
   },
   {
-    id: "french-bulldog", name: "French Bulldog", size: "small", category: "French Bulldog", photo: "A French Bulldog.jpg", petfinder: "french-bulldog",
-    profile: {energy:2, experience:1, exercise:1, grooming:1, shedding:2, apartment:5, children:4, working:1},
-    facts: {weight:"16–28 lb", height:"About 11–13 in", lifespan:"10–12 years", coat:"Short, smooth coat", purpose:"Companion dog", exercise:"Short daily walks; heat-limited"},
-    stats: {trainability:66, energy:42, exercise:34, stimulation:48, sociability:84, independence:42, shedding:44, grooming:24, barking:43},
-    disadvantages:["Flat-faced anatomy can make breathing and heat regulation difficult, especially during exercise or hot weather.","Skin folds and ears need regular attention to prevent irritation and infection.","Spinal, airway and other health problems can make veterinary costs substantial.","They are not suitable for strenuous endurance exercise, particularly in warm climates."],
-    products:{harness:"small broad-chest no-pull harness, roughly 18–26 inch chest", shampoo:"french bulldog sensitive skin and wrinkle-friendly dog shampoo", grooming:"soft grooming mitt and wrinkle wipes", bed:"small-medium cooling bed or 30 inch crate"}
-  },
-  {
     id: "dachshund", name: "Dachshund", size: "small", category: "Dachshund", photo: "Wire-haired Dachshund R 01.JPG", petfinder: "dachshund",
     profile: {energy:3, experience:1, exercise:2, grooming:2, shedding:2, apartment:4, children:3, working:2},
     facts: {weight:"16–32 lb standard; smaller minis", height:"About 8–9 in standard", lifespan:"12–16 years", coat:"Smooth, longhaired or wirehaired", purpose:"Badger and burrow hunting", exercise:"About 1 hour/day"},
@@ -142,5 +134,125 @@ const BREEDS = [
     stats: {trainability:90, energy:80, exercise:74, stimulation:82, sociability:78, independence:42, shedding:94, grooming:40, barking:78},
     disadvantages:["The double coat sheds heavily despite its tidy appearance.","Herding instinct may appear as heel-nipping, chasing and controlling movement around the home.","Their long-backed shape means excess weight adds undesirable stress to the spine and joints.","They can become very vocal if alert barking is not managed early."],
     products:{harness:"small-medium Y-front harness, roughly 20–28 inch chest", shampoo:"corgi double coat deshedding shampoo", grooming:"undercoat rake and grooming mitt", bed:"supportive low-entry medium bed or 30–36 inch crate"}
+  },
+  {
+    id: "newfoundland", name: "Newfoundland", size: "large", category: "Newfoundland (dog)", photo: "", petfinder: "newfoundland-dog",
+    profile: {energy:2, experience:2, exercise:2, grooming:4, shedding:5, apartment:2, children:5, working:4},
+    facts: {weight:"100–150 lb", height:"26–28 in", lifespan:"9–10 years", coat:"Heavy water-resistant double coat", purpose:"Water rescue and draft work", exercise:"About 1 hour/day, avoiding overexertion in heat"},
+    stats: {trainability:82, energy:46, exercise:54, stimulation:62, sociability:92, independence:38, shedding:94, grooming:84, barking:34},
+    disadvantages:["Their enormous size makes food, medication, boarding, travel and basic equipment substantially more expensive.","The heavy coat sheds and mats without regular brushing, and many Newfoundlands drool heavily.","They overheat more easily than lighter-coated breeds and need careful exercise management in warm climates.","Hip and elbow dysplasia and inherited heart disease are important breed health concerns."],
+    products:{harness:"XXL heavy-duty harness, roughly 34–48 inch chest", shampoo:"Newfoundland double coat conditioning and deshedding shampoo", grooming:"large undercoat rake, pin brush and metal comb", bed:"giant orthopedic dog bed or 48–54 inch crate"}
+  },
+  {
+    id: "doberman-pinscher", name: "Doberman Pinscher", size: "large", category: "Dobermann", photo: "", petfinder: "doberman-pinscher",
+    profile: {energy:4, experience:3, exercise:4, grooming:1, shedding:2, apartment:3, children:4, working:5},
+    facts: {weight:"60–100 lb", height:"24–28 in", lifespan:"10–12 years", coat:"Short, smooth coat", purpose:"Personal protection and working companion", exercise:"About 1.5–2 hours/day"},
+    stats: {trainability:94, energy:86, exercise:88, stimulation:91, sociability:68, independence:42, shedding:38, grooming:22, barking:62},
+    disadvantages:["They need consistent training, exercise and early socialization; boredom can turn into destructive or difficult behavior.","Dilated cardiomyopathy is a major inherited health concern in the breed and can sometimes progress with few early signs.","Their short coat provides little insulation in cold weather.","They are powerful, fast dogs, so weak leash skills or inconsistent handling become significant problems."],
+    products:{harness:"large athletic Y-front harness, roughly 27–36 inch chest", shampoo:"Doberman short coat gentle dog shampoo", grooming:"rubber curry brush and grooming mitt", bed:"large orthopedic bed or 42 inch crate"}
+  },
+  {
+    id: "boxer", name: "Boxer", size: "large", category: "Boxer (dog)", photo: "", petfinder: "boxer",
+    profile: {energy:4, experience:2, exercise:4, grooming:1, shedding:2, apartment:3, children:4, working:4},
+    facts: {weight:"50–80 lb", height:"21.5–25 in", lifespan:"10–12 years", coat:"Short, smooth coat", purpose:"Working, guarding and companion work", exercise:"About 1.5 hours/day"},
+    stats: {trainability:80, energy:88, exercise:84, stimulation:78, sociability:86, independence:40, shedding:42, grooming:20, barking:48},
+    disadvantages:["Young Boxers can be extremely bouncy and physical, which can overwhelm small children or fragile adults without training.","Their shortened muzzle reduces heat tolerance compared with longer-muzzled athletic breeds.","The breed has meaningful risks of heart disease and several cancers.","They often remain puppy-like for years and need more structured activity than their comic personality may suggest."],
+    products:{harness:"large broad-chest Y-front harness, roughly 25–35 inch chest", shampoo:"Boxer sensitive-skin short coat shampoo", grooming:"rubber grooming mitt", bed:"large supportive bed or 36–42 inch crate"}
+  },
+  {
+    id: "rottweiler", name: "Rottweiler", size: "large", category: "Rottweiler", photo: "", petfinder: "rottweiler",
+    profile: {energy:3, experience:3, exercise:3, grooming:1, shedding:3, apartment:2, children:4, working:5},
+    facts: {weight:"80–135 lb", height:"22–27 in", lifespan:"9–10 years", coat:"Short double coat", purpose:"Cattle driving, carting and working", exercise:"About 1–1.5 hours/day plus training"},
+    stats: {trainability:91, energy:70, exercise:72, stimulation:84, sociability:62, independence:48, shedding:60, grooming:26, barking:46},
+    disadvantages:["They are exceptionally strong, so incomplete training and socialization can create problems that are physically difficult to manage.","Hip and elbow dysplasia, cruciate injuries and some cancers are important breed health concerns.","They often mature into serious, confident adults and are a poor choice for owners who want a very casual training approach.","Housing or insurance restrictions can apply to the breed in some places."],
+    products:{harness:"XL heavy-duty harness, roughly 30–40 inch chest", shampoo:"Rottweiler short double coat deshedding shampoo", grooming:"rubber curry brush and undercoat tool", bed:"XL orthopedic bed or 42–48 inch crate"}
+  },
+  {
+    id: "greyhound", name: "Greyhound", size: "large", category: "Greyhound", photo: "", petfinder: "greyhound",
+    profile: {energy:2, experience:1, exercise:2, grooming:1, shedding:2, apartment:4, children:4, working:2},
+    facts: {weight:"60–70 lb", height:"27–30 in", lifespan:"10–13 years", coat:"Short, fine coat", purpose:"Coursing and racing", exercise:"Daily walks plus chances to run safely"},
+    stats: {trainability:70, energy:44, exercise:58, stimulation:50, sociability:78, independence:64, shedding:34, grooming:18, barking:22},
+    disadvantages:["Their prey drive can be strong, so small animals and off-leash areas require careful judgment.","The thin coat and low body fat make them unusually sensitive to cold weather and hard sleeping surfaces.","They can reach very high speed almost instantly, so secure fencing matters even though they are often calm indoors.","Dental disease can be a recurring issue in some Greyhounds and needs active prevention."],
+    products:{harness:"large deep-chest escape-resistant sighthound harness, roughly 26–34 inch chest", shampoo:"Greyhound gentle short coat shampoo", grooming:"soft rubber grooming mitt", bed:"large thick orthopedic bed or 42 inch crate"}
+  },
+  {
+    id: "australian-cattle-dog", name: "Australian Cattle Dog", size: "medium", category: "Australian Cattle Dog", photo: "", petfinder: "australian-cattle-dog-blue-heeler",
+    profile: {energy:5, experience:3, exercise:5, grooming:2, shedding:4, apartment:2, children:3, working:5},
+    facts: {weight:"35–50 lb", height:"17–20 in", lifespan:"12–16 years", coat:"Short dense double coat", purpose:"Driving cattle over long distances", exercise:"About 2+ hours/day with mental work"},
+    stats: {trainability:93, energy:98, exercise:98, stimulation:96, sociability:58, independence:62, shedding:72, grooming:34, barking:58},
+    disadvantages:["They are intensely energetic working dogs and can invent unwanted jobs if physical exercise is not paired with mental work.","Herding behavior can include chasing, body-blocking and heel-nipping children, runners or other pets.","They can be suspicious or sharp with unfamiliar people if socialization is neglected.","Deafness and progressive retinal atrophy are notable inherited health concerns."],
+    products:{harness:"medium athletic harness, roughly 20–30 inch chest", shampoo:"Australian Cattle Dog double coat deshedding shampoo", grooming:"undercoat rake and rubber curry brush", bed:"medium-large durable bed or 36 inch crate"}
+  },
+  {
+    id: "english-springer-spaniel", name: "English Springer Spaniel", size: "medium", category: "English Springer Spaniel", photo: "", petfinder: "english-springer-spaniel",
+    profile: {energy:4, experience:1, exercise:4, grooming:3, shedding:3, apartment:3, children:5, working:5},
+    facts: {weight:"40–50 lb", height:"19–20 in", lifespan:"12–14 years", coat:"Medium double coat with feathering", purpose:"Flushing and retrieving game", exercise:"About 1.5–2 hours/day"},
+    stats: {trainability:91, energy:86, exercise:86, stimulation:84, sociability:91, independence:30, shedding:62, grooming:66, barking:50},
+    disadvantages:["They need substantial daily activity and often become restless when treated as low-key companion dogs.","Feathering around ears, legs and belly collects mud and tangles and requires regular brushing and trimming.","Long, dropped ears increase the need for ear monitoring and cleaning.","Some lines can be highly intense, so temperament and breeding line matter considerably."],
+    products:{harness:"medium adjustable harness, roughly 21–30 inch chest", shampoo:"Springer Spaniel feathered coat conditioning shampoo", grooming:"slicker brush, comb and ear-care supplies", bed:"medium-large washable bed or 36 inch crate"}
+  },
+  {
+    id: "brittany", name: "Brittany", size: "medium", category: "Brittany dog", photo: "", petfinder: "brittany-spaniel",
+    profile: {energy:5, experience:2, exercise:5, grooming:2, shedding:2, apartment:2, children:4, working:5},
+    facts: {weight:"30–40 lb", height:"17.5–20.5 in", lifespan:"12–14 years", coat:"Dense flat or wavy coat", purpose:"Pointing and retrieving birds", exercise:"About 2+ hours/day"},
+    stats: {trainability:91, energy:98, exercise:98, stimulation:90, sociability:88, independence:36, shedding:44, grooming:42, barking:48},
+    disadvantages:["Their exercise needs are genuinely high; a quick walk is rarely enough for an adult Brittany.","They can range far and chase wildlife, so recall training and secure exercise areas matter.","Under-stimulated dogs may become frantic, destructive or difficult to settle indoors.","Their sensitive temperament often responds poorly to harsh or inconsistent training."],
+    products:{harness:"medium lightweight athletic harness, roughly 19–28 inch chest", shampoo:"Brittany medium coat gentle conditioning shampoo", grooming:"pin brush and metal comb", bed:"medium washable bed or 30–36 inch crate"}
+  },
+  {
+    id: "basenji", name: "Basenji", size: "medium", category: "Basenji", photo: "", petfinder: "basenji",
+    profile: {energy:4, experience:3, exercise:4, grooming:1, shedding:1, apartment:4, children:3, working:2},
+    facts: {weight:"22–24 lb", height:"16–17 in", lifespan:"13–14 years", coat:"Very short fine coat", purpose:"Hunting by sight and scent", exercise:"About 1–1.5+ hours/day"},
+    stats: {trainability:48, energy:82, exercise:82, stimulation:78, sociability:56, independence:95, shedding:18, grooming:14, barking:12},
+    disadvantages:["They are extremely independent and can be much harder to motivate than breeds developed for close cooperation with people.","Strong prey drive and poor reliability around distractions make off-leash freedom risky for many individuals.","They may be quiet in the conventional barking sense but can yodel, scream and make other distinctive sounds.","Fanconi syndrome and progressive retinal atrophy are important inherited conditions for which responsible breeders screen."],
+    products:{harness:"small-medium escape-resistant harness, roughly 18–26 inch chest", shampoo:"Basenji gentle short coat shampoo", grooming:"soft grooming mitt", bed:"medium warm bed or 30 inch crate"}
+  },
+  {
+    id: "whippet", name: "Whippet", size: "medium", category: "Whippet", photo: "", petfinder: "whippet",
+    profile: {energy:3, experience:1, exercise:2, grooming:1, shedding:1, apartment:5, children:4, working:2},
+    facts: {weight:"25–40 lb", height:"18–22 in", lifespan:"12–15 years", coat:"Short, fine coat", purpose:"Coursing and racing small game", exercise:"Daily walks plus safe sprinting opportunities"},
+    stats: {trainability:72, energy:62, exercise:62, stimulation:56, sociability:82, independence:58, shedding:24, grooming:14, barking:20},
+    disadvantages:["Prey drive can be strong and their acceleration is exceptional, so secure fencing and thoughtful recall management are important.","The thin coat and lean body make them sensitive to cold weather.","Their skin is relatively thin and can be injured more easily during rough play or high-speed collisions.","Many dislike being left alone for long periods and are happiest with substantial human companionship."],
+    products:{harness:"medium deep-chest sighthound harness, roughly 20–28 inch chest", shampoo:"Whippet gentle sensitive-skin short coat shampoo", grooming:"soft rubber grooming mitt", bed:"medium thick cushioned bed or 30–36 inch crate"}
+  },
+  {
+    id: "havanese", name: "Havanese", size: "small", category: "Havanese", photo: "", petfinder: "havanese",
+    profile: {energy:2, experience:1, exercise:2, grooming:5, shedding:1, apartment:5, children:5, working:1},
+    facts: {weight:"7–13 lb", height:"8.5–11.5 in", lifespan:"14–16 years", coat:"Long, soft, silky coat", purpose:"Companion dog", exercise:"About 45–60 minutes/day"},
+    stats: {trainability:84, energy:48, exercise:48, stimulation:58, sociability:95, independence:20, shedding:14, grooming:94, barking:58},
+    disadvantages:["The long coat mats quickly without very frequent brushing or a shorter maintenance trim.","They are strongly people-oriented and can struggle with long stretches of isolation.","Small size makes rough handling or accidental falls more consequential.","Dental care is important because crowding and periodontal disease are common concerns in small companion breeds."],
+    products:{harness:"XS soft lightweight harness, roughly 12–18 inch chest", shampoo:"Havanese silky coat detangling and conditioning shampoo", grooming:"small pin brush, slicker brush and metal comb", bed:"small cushioned bed or 24 inch crate"}
+  },
+  {
+    id: "bichon-frise", name: "Bichon Frise", size: "small", category: "Bichon Frisé", photo: "", petfinder: "bichon-frise",
+    profile: {energy:2, experience:1, exercise:2, grooming:5, shedding:1, apartment:5, children:5, working:1},
+    facts: {weight:"12–18 lb", height:"9.5–11.5 in", lifespan:"14–15 years", coat:"Curly double coat", purpose:"Companion dog", exercise:"About 45–60 minutes/day"},
+    stats: {trainability:80, energy:50, exercise:48, stimulation:56, sociability:94, independence:22, shedding:10, grooming:98, barking:54},
+    disadvantages:["Low shedding does not mean low maintenance: the coat requires frequent brushing and regular professional clipping.","Tear staining and skin sensitivity can require ongoing care.","They can become very attached to people and may develop separation-related behavior if alone too often.","Dental disease and bladder stones are among the health issues owners should be prepared to monitor."],
+    products:{harness:"small lightweight harness, roughly 14–20 inch chest", shampoo:"Bichon Frise white curly coat moisturizing shampoo", grooming:"small slicker brush, metal comb and clipper supplies", bed:"small washable bed or 24–30 inch crate"}
+  },
+  {
+    id: "papillon", name: "Papillon", size: "small", category: "Papillon (dog)", photo: "", petfinder: "papillon",
+    profile: {energy:3, experience:1, exercise:2, grooming:2, shedding:2, apartment:5, children:3, working:4},
+    facts: {weight:"5–10 lb", height:"8–11 in", lifespan:"14–16 years", coat:"Long, fine single coat", purpose:"Companion and small sporting dog", exercise:"About 45–60 minutes/day plus play or training"},
+    stats: {trainability:94, energy:70, exercise:56, stimulation:82, sociability:86, independence:34, shedding:38, grooming:46, barking:72},
+    disadvantages:["They are tiny but mentally and physically active, and can become noisy or restless if treated like decorative lap dogs.","Their small bones make rough play with much larger dogs or young children risky.","They are alert and can become frequent barkers without training.","Patellar luxation and dental disease are notable small-breed health concerns."],
+    products:{harness:"XXS or XS lightweight harness, roughly 10–16 inch chest", shampoo:"Papillon fine silky coat gentle conditioning shampoo", grooming:"small pin brush and fine metal comb", bed:"toy-size bed or 18–24 inch crate"}
+  },
+  {
+    id: "jack-russell-terrier", name: "Jack Russell Terrier", size: "small", category: "Jack Russell Terrier", photo: "", petfinder: "jack-russell-terrier",
+    profile: {energy:5, experience:3, exercise:4, grooming:1, shedding:2, apartment:3, children:3, working:5},
+    facts: {weight:"13–17 lb", height:"10–12 in", lifespan:"13–16 years", coat:"Smooth, broken or rough", purpose:"Fox hunting and vermin control", exercise:"About 1.5+ hours/day with mental work"},
+    stats: {trainability:86, energy:98, exercise:90, stimulation:94, sociability:70, independence:70, shedding:42, grooming:28, barking:84},
+    disadvantages:["Their energy, prey drive and persistence are far greater than their small size suggests.","They can dig, chase, bark and escape when their hunting instincts are not given appropriate outlets.","Many are too intense for households wanting a quiet, easy lap dog.","They often require careful management around small pets because chasing behavior is deeply ingrained."],
+    products:{harness:"small secure Y-front harness, roughly 15–22 inch chest", shampoo:"Jack Russell Terrier short or broken coat gentle shampoo", grooming:"rubber curry brush or stripping tool for rough coats", bed:"small durable bed or 24–30 inch crate"}
+  },
+  {
+    id: "maltese", name: "Maltese", size: "small", category: "Maltese (dog)", photo: "", petfinder: "maltese",
+    profile: {energy:2, experience:1, exercise:1, grooming:5, shedding:1, apartment:5, children:3, working:1},
+    facts: {weight:"Under 7 lb", height:"About 7–9 in", lifespan:"12–15 years", coat:"Long, straight silky coat", purpose:"Companion dog", exercise:"About 30–45 minutes/day"},
+    stats: {trainability:76, energy:42, exercise:34, stimulation:50, sociability:86, independence:30, shedding:10, grooming:98, barking:70},
+    disadvantages:["A full-length coat requires intensive brushing and regular bathing; even a short pet trim still needs scheduled grooming.","Their tiny size makes falls, rough handling and interactions with much larger dogs more dangerous.","Dental disease is a major maintenance issue in toy breeds and needs consistent prevention.","They can become vocal or separation-prone when highly dependent on constant companionship."],
+    products:{harness:"XXS lightweight harness, roughly 9–14 inch chest", shampoo:"Maltese white silky coat tear-stain friendly conditioning shampoo", grooming:"small pin brush, face comb and fine metal comb", bed:"toy-size soft bed or 18–24 inch crate"}
   }
 ];

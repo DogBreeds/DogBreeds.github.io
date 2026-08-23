@@ -15,6 +15,43 @@ const STAT_LABELS = {
   barking: "Barking tendency"
 };
 
+const BREED_VARIATIONS = {
+  "labrador-retriever": ["yellow Labrador Retriever", "black Labrador Retriever", "chocolate Labrador Retriever"],
+  "golden-retriever": ["light Golden Retriever", "golden Golden Retriever", "dark Golden Retriever"],
+  "german-shepherd-dog": ["black and tan German Shepherd", "sable German Shepherd", "black German Shepherd"],
+  "great-dane": ["fawn Great Dane", "harlequin Great Dane", "blue Great Dane", "brindle Great Dane"],
+  "bernese-mountain-dog": ["Bernese Mountain Dog adult", "Bernese Mountain Dog puppy", "Bernese Mountain Dog coat"],
+  "standard-poodle": ["black Standard Poodle", "white Standard Poodle", "brown Standard Poodle", "red Standard Poodle"],
+  "border-collie": ["black white Border Collie", "red white Border Collie", "blue merle Border Collie", "tricolor Border Collie"],
+  "australian-shepherd": ["blue merle Australian Shepherd", "red merle Australian Shepherd", "black tri Australian Shepherd", "red tri Australian Shepherd"],
+  "beagle": ["tricolor Beagle", "lemon white Beagle", "red white Beagle"],
+  "english-cocker-spaniel": ["black English Cocker Spaniel", "golden English Cocker Spaniel", "blue roan English Cocker Spaniel", "orange roan English Cocker Spaniel"],
+  "shiba-inu": ["red Shiba Inu", "black tan Shiba Inu", "sesame Shiba Inu", "cream Shiba Inu"],
+  "siberian-husky": ["black white Siberian Husky", "gray white Siberian Husky", "red white Siberian Husky", "agouti Siberian Husky"],
+  "dachshund": ["smooth Dachshund", "longhaired Dachshund", "wirehaired Dachshund", "red Dachshund"],
+  "cavalier-king-charles-spaniel": ["Blenheim Cavalier King Charles Spaniel", "tricolor Cavalier King Charles Spaniel", "ruby Cavalier King Charles Spaniel", "black tan Cavalier King Charles Spaniel"],
+  "miniature-schnauzer": ["salt pepper Miniature Schnauzer", "black silver Miniature Schnauzer", "black Miniature Schnauzer"],
+  "pomeranian": ["orange Pomeranian", "cream Pomeranian", "black Pomeranian", "sable Pomeranian"],
+  "pembroke-welsh-corgi": ["red white Pembroke Welsh Corgi", "sable Pembroke Welsh Corgi", "tricolor Pembroke Welsh Corgi"],
+  "newfoundland": ["black Newfoundland dog", "brown Newfoundland dog", "Landseer Newfoundland dog"],
+  "doberman-pinscher": ["black rust Doberman", "red rust Doberman", "blue Doberman", "fawn Doberman"],
+  "boxer": ["fawn Boxer dog", "brindle Boxer dog", "white Boxer dog"],
+  "rottweiler": ["Rottweiler adult", "Rottweiler puppy", "Rottweiler markings"],
+  "greyhound": ["black Greyhound dog", "brindle Greyhound dog", "fawn Greyhound dog", "blue Greyhound dog"],
+  "australian-cattle-dog": ["blue Australian Cattle Dog", "red Australian Cattle Dog", "speckled Australian Cattle Dog"],
+  "english-springer-spaniel": ["liver white English Springer Spaniel", "black white English Springer Spaniel", "tricolor English Springer Spaniel"],
+  "brittany": ["orange white Brittany dog", "liver white Brittany dog", "roan Brittany dog"],
+  "basenji": ["red white Basenji", "black white Basenji", "tricolor Basenji", "brindle Basenji"],
+  "whippet": ["brindle Whippet", "fawn Whippet", "black Whippet", "blue Whippet"],
+  "havanese": ["black Havanese", "white Havanese", "chocolate Havanese", "sable Havanese"],
+  "bichon-frise": ["white Bichon Frise", "cream Bichon Frise", "Bichon Frise puppy"],
+  "papillon": ["sable Papillon dog", "black white Papillon dog", "tricolor Papillon dog"],
+  "jack-russell-terrier": ["white tan Jack Russell Terrier", "tricolor Jack Russell Terrier", "white black Jack Russell Terrier"],
+  "maltese": ["white Maltese dog", "Maltese puppy", "Maltese long coat"]
+};
+
+const primaryPhotoCache = new Map();
+
 function esc(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -24,12 +61,26 @@ function esc(value) {
     .replaceAll("'", "&#039;");
 }
 
+function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+function inverse5(n) { return (6 - clamp(Number(n) || 3, 1, 5)) / 5; }
+function norm5(n) { return clamp(Number(n) || 3, 1, 5) / 5; }
+function inverse100(n) { return (100 - clamp(Number(n) || 50, 0, 100)) / 100; }
+function norm100(n) { return clamp(Number(n) || 50, 0, 100) / 100; }
+function target5(n, target, spread = 2) { return clamp(1 - Math.abs((Number(n) || 3) - target) / spread, 0, 1); }
+function avg(values) { return values.length ? values.reduce((a,b) => a + b, 0) / values.length : 0.5; }
+
 function commonsImage(fileName, width = 1200) {
+  if (!fileName) return "";
   return `https://commons.wikimedia.org/wiki/Special:Redirect/file/${encodeURIComponent(fileName)}?width=${width}`;
 }
 
 function commonsPage(fileName) {
+  if (!fileName) return "https://commons.wikimedia.org/";
   return `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(fileName.replaceAll(" ", "_"))}`;
+}
+
+function commonsCategoryPage(category) {
+  return `https://commons.wikimedia.org/wiki/Category:${encodeURIComponent(String(category).replaceAll(" ", "_"))}`;
 }
 
 function amazonSearch(query) {
@@ -48,9 +99,12 @@ function petfinderSearch(breed, zip) {
 }
 
 function breedCard(breed) {
+  const initial = breed.photo
+    ? `<img loading="lazy" src="${commonsImage(breed.photo, 900)}" alt="${esc(breed.name)}" data-card-img data-category="${esc(breed.category)}">`
+    : `<div class="photo-placeholder" data-card-placeholder data-category="${esc(breed.category)}">Loading photo…</div>`;
   return `
     <button class="breed-card" type="button" data-breed="${esc(breed.id)}" aria-label="Open ${esc(breed.name)}">
-      <div class="card-photo"><img loading="lazy" src="${commonsImage(breed.photo, 900)}" alt="${esc(breed.name)}"></div>
+      <div class="card-photo">${initial}</div>
       <div class="card-body">
         <div class="card-name">${esc(breed.name)}</div>
         <div class="card-size">${SIZE_LABELS[breed.size]} breed</div>
@@ -58,70 +112,344 @@ function breedCard(breed) {
     </button>`;
 }
 
-function renderQuiz() {
+function renderHome() {
   app.innerHTML = `
-    <section class="hero">
-      <p class="kicker">Breed quiz</p>
-      <h1>Unsure about the breed?</h1>
-      <p class="lead">Take the quiz. Choose “not sure” whenever you do not know. Every breed in this site that fits your answers will appear.</p>
+    <section class="home-hero">
+      <div class="hero-copy">
+        <p class="kicker">Dog breed guide</p>
+        <h1>Find a dog that fits your life.</h1>
+        <p class="lead">Dog Breed Finder is a practical guide for comparing breeds before you choose a dog. Browse directly if you already know what matters to you, use the filter for specific traits, or take the quiz if you are not sure how those traits translate into a breed.</p>
+        <div class="actions hero-actions">
+          <button class="primary" type="button" id="take-quiz">TAKE THE QUIZ</button>
+          <button class="secondary" type="button" id="browse-all">BROWSE ALL BREEDS</button>
+        </div>
+      </div>
+      <aside class="about-card" aria-label="How to use the site">
+        <p class="section-label">Three ways to explore</p>
+        <ol>
+          <li><strong>Quiz</strong><span>Answer lifestyle questions and see every strong match.</span></li>
+          <li><strong>Filter</strong><span>Choose exact traits when you already know what you want.</span></li>
+          <li><strong>Browse</strong><span>Open Large, Medium or Small above and explore freely.</span></li>
+        </ol>
+      </aside>
     </section>
 
-    <form class="quiz-form" id="quiz-form">
-      <div class="quiz-grid">
-        ${question("size", "What size dog do you want?", [["", "Not sure / any size"],["small","Small"],["medium","Medium"],["large","Large"]])}
-        ${question("energy", "What energy level do you want?", [["","Not sure"],["low","Lower energy"],["moderate","Moderate"],["high","High energy"]])}
-        ${question("experience", "How experienced are you with dogs?", [["","Not sure"],["beginner","First dog / beginner"],["some","Some experience"],["experienced","Experienced"]])}
-        ${question("exercise", "How much exercise can you reliably provide each day?", [["","Not sure"],["short","Up to about 45 minutes"],["medium","About 45–90 minutes"],["long","About 1.5–2 hours"],["very-long","2+ hours"]])}
-        ${question("home", "What kind of home?", [["","Not sure / no preference"],["apartment","Apartment"],["house","House"],["property","Large property"]])}
-        ${question("children", "Will the dog regularly live with children?", [["","Not sure / no preference"],["yes","Yes"],["no","No"]])}
-        ${question("grooming", "How much grooming are you comfortable with?", [["","Not sure"],["low","Low"],["moderate","Moderate"],["high","High is fine"]])}
-        ${question("shedding", "How much shedding are you comfortable with?", [["","Not sure"],["low","As little as possible"],["moderate","Some shedding is fine"],["high","Heavy shedding is fine"]])}
-        ${question("working", "Do you want a dog that enjoys lots of training, tasks or sport?", [["","Not sure"],["yes","Yes"],["no","No, mostly a companion"]])}
-      </div>
-      <div class="actions">
-        <button class="primary" type="submit">SHOW BREEDS</button>
-        <button class="secondary" type="reset">RESET</button>
-      </div>
-    </form>
-    <section class="results" id="quiz-results" aria-live="polite"></section>`;
+    ${filterMarkup("home-filter")}
 
-  const form = document.getElementById("quiz-form");
+    <section class="quiz-stage" id="quiz-stage" hidden>
+      <div class="quiz-intro">
+        <p class="kicker">Breed quiz</p>
+        <h2>This is not a checklist of dog traits.</h2>
+        <p class="lead">Choose the situations and tradeoffs that sound like your real life. The quiz scores the breeds against the combination of answers rather than applying each answer as a hard filter.</p>
+      </div>
+      ${quizMarkup()}
+    </section>
+
+    <section class="results" id="home-results" aria-live="polite"></section>`;
+
+  document.getElementById("take-quiz").addEventListener("click", () => {
+    const stage = document.getElementById("quiz-stage");
+    stage.hidden = false;
+    stage.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  document.getElementById("browse-all").addEventListener("click", () => renderInlineAllBreeds());
+  setupFilter("home-filter", "home-results");
+  setupQuiz();
+}
+
+function filterMarkup(id) {
+  return `
+    <details class="filter-shell" id="${id}">
+      <summary>
+        <span>FILTER BREEDS</span>
+        <span class="filter-summary-note">optional, for direct filtering</span>
+      </summary>
+      <form class="filter-form" data-filter-form>
+        <div class="filter-grid">
+          ${filterGroup("size", "Size", [["small","Small"],["medium","Medium"],["large","Large"]])}
+          ${filterGroup("energy", "Energy", [["low","Lower"],["moderate","Moderate"],["high","High"]])}
+          ${filterGroup("exercise", "Exercise need", [["light","Lighter"],["moderate","Moderate"],["high","High"]])}
+          ${filterGroup("grooming", "Grooming", [["low","Lower"],["moderate","Moderate"],["high","High is fine"]])}
+          ${filterGroup("shedding", "Shedding", [["low","Lower"],["moderate","Moderate"],["high","Heavy is fine"]])}
+          ${filterGroup("experience", "Owner experience", [["beginner","Beginner-friendly"],["some","Some experience helpful"],["experienced","Experienced handling needed"]])}
+          ${filterGroup("home", "Home fit", [["apartment","Apartment-friendly"],["space","Space preferred"]])}
+          ${filterGroup("lifestyle", "Lifestyle", [["children","Good with children"],["working","Training / sport"],["companion","Mostly companion"]])}
+        </div>
+        <div class="actions filter-actions">
+          <button class="primary" type="submit">APPLY FILTER</button>
+          <button class="secondary" type="reset">CLEAR</button>
+        </div>
+      </form>
+    </details>`;
+}
+
+function filterGroup(key, label, options) {
+  return `
+    <fieldset class="filter-group" data-filter-group="${key}">
+      <legend>${esc(label)}</legend>
+      <label class="check-option none-option"><input type="checkbox" name="${key}" value="none" checked> <span>None</span></label>
+      ${options.map(([value,text]) => `<label class="check-option"><input type="checkbox" name="${key}" value="${value}"> <span>${esc(text)}</span></label>`).join("")}
+    </fieldset>`;
+}
+
+function setupFilter(detailsId, resultsId) {
+  const details = document.getElementById(detailsId);
+  if (!details) return;
+  const form = details.querySelector("[data-filter-form]");
+  setupNoneCheckboxes(form, "[data-filter-group]");
+
   form.addEventListener("submit", event => {
     event.preventDefault();
-    const values = Object.fromEntries(new FormData(form).entries());
-    const matches = BREEDS.filter(breed => matchesQuiz(breed, values));
-    renderResults(matches, "quiz-results", "Breeds that fit");
-    document.getElementById("quiz-results").scrollIntoView({behavior:"smooth", block:"start"});
+    const values = collectCheckboxGroups(form, "[data-filter-group]");
+    const matches = BREEDS.filter(breed => matchesFilter(breed, values));
+    renderResults(matches, resultsId, "Filtered breeds");
+    document.getElementById(resultsId)?.scrollIntoView({ behavior: "smooth", block: "start" });
   });
+
   form.addEventListener("reset", () => {
-    setTimeout(() => { document.getElementById("quiz-results").innerHTML = ""; }, 0);
+    setTimeout(() => {
+      form.querySelectorAll("[data-filter-group]").forEach(group => {
+        group.querySelectorAll("input").forEach(input => { input.checked = input.value === "none"; });
+      });
+      const target = document.getElementById(resultsId);
+      if (target) target.innerHTML = "";
+    }, 0);
   });
 }
 
-function question(name, label, options) {
-  return `<div class="question"><label for="${name}">${esc(label)}</label><select id="${name}" name="${name}">${options.map(([v,t]) => `<option value="${esc(v)}">${esc(t)}</option>`).join("")}</select></div>`;
+function collectCheckboxGroups(form, selector) {
+  const result = {};
+  form.querySelectorAll(selector).forEach(group => {
+    const key = group.dataset.filterGroup || group.dataset.quizGroup;
+    result[key] = [...group.querySelectorAll("input:checked")].map(input => input.value).filter(v => v !== "none");
+  });
+  return result;
 }
 
-function matchesQuiz(breed, v) {
+function setupNoneCheckboxes(scope, groupSelector) {
+  scope.querySelectorAll(groupSelector).forEach(group => {
+    const inputs = [...group.querySelectorAll('input[type="checkbox"]')];
+    const none = inputs.find(input => input.value === "none");
+    if (!none) return;
+    inputs.forEach(input => {
+      input.addEventListener("change", () => {
+        if (input === none && none.checked) {
+          inputs.filter(other => other !== none).forEach(other => { other.checked = false; });
+        } else if (input !== none && input.checked) {
+          none.checked = false;
+        }
+        if (!inputs.some(other => other.checked)) none.checked = true;
+      });
+    });
+  });
+}
+
+function matchesAny(value, tests) { return tests.some(test => test(value)); }
+
+function matchesFilter(breed, v) {
   const p = breed.profile;
-  if (v.size && breed.size !== v.size) return false;
-  if (v.energy === "low" && p.energy > 2) return false;
-  if (v.energy === "moderate" && (p.energy < 2 || p.energy > 4)) return false;
-  if (v.energy === "high" && p.energy < 4) return false;
-  if (v.experience === "beginner" && p.experience > 1) return false;
-  if (v.experience === "some" && p.experience > 2) return false;
-  if (v.exercise === "short" && p.exercise > 1) return false;
-  if (v.exercise === "medium" && p.exercise > 3) return false;
-  if (v.exercise === "long" && p.exercise > 4) return false;
-  if (v.home === "apartment" && p.apartment < 3) return false;
-  if (v.children === "yes" && p.children < 4) return false;
-  if (v.grooming === "low" && p.grooming > 2) return false;
-  if (v.grooming === "moderate" && p.grooming > 3) return false;
-  if (v.shedding === "low" && p.shedding > 2) return false;
-  if (v.shedding === "moderate" && p.shedding > 4) return false;
-  if (v.working === "yes" && p.working < 4) return false;
-  if (v.working === "no" && p.working > 3) return false;
+  if (v.size?.length && !v.size.includes(breed.size)) return false;
+  if (v.energy?.length && !matchesAny(p.energy, v.energy.map(x => x === "low" ? n => n <= 2 : x === "moderate" ? n => n >= 2 && n <= 4 : n => n >= 4))) return false;
+  if (v.exercise?.length && !matchesAny(p.exercise, v.exercise.map(x => x === "light" ? n => n <= 2 : x === "moderate" ? n => n >= 2 && n <= 3 : n => n >= 4))) return false;
+  if (v.grooming?.length && !matchesAny(p.grooming, v.grooming.map(x => x === "low" ? n => n <= 2 : x === "moderate" ? n => n >= 2 && n <= 3 : n => n >= 4))) return false;
+  if (v.shedding?.length && !matchesAny(p.shedding, v.shedding.map(x => x === "low" ? n => n <= 2 : x === "moderate" ? n => n >= 2 && n <= 4 : n => n >= 4))) return false;
+  if (v.experience?.length) {
+    const ok = v.experience.some(x => x === "beginner" ? p.experience === 1 : x === "some" ? p.experience === 2 : p.experience >= 3);
+    if (!ok) return false;
+  }
+  if (v.home?.length) {
+    const ok = v.home.some(x => x === "apartment" ? p.apartment >= 4 : p.apartment <= 3);
+    if (!ok) return false;
+  }
+  if (v.lifestyle?.length) {
+    const ok = v.lifestyle.some(x => x === "children" ? p.children >= 4 : x === "working" ? p.working >= 4 : p.working <= 3);
+    if (!ok) return false;
+  }
   return true;
+}
+
+function quizMarkup() {
+  return `
+    <form class="quiz-form" id="quiz-form">
+      <div class="quiz-grid quiz-grid-situational">
+        ${quizMulti("weekend", "Pick the Saturday plans that actually sound fun.", [
+          ["hike","A long hike, run or outdoor adventure"],
+          ["training","Training tricks, agility or dog sport"],
+          ["family","A family outing with children"],
+          ["social","A café, park or social day"],
+          ["quiet","A quiet day at home with a couple of walks"]
+        ])}
+        ${quizMulti("dealbreakers", "Which things would annoy you enough to rule a breed out?", [
+          ["hair","Hair everywhere"],
+          ["grooming","Frequent professional grooming"],
+          ["noise","A lot of barking or howling"],
+          ["stimulation","Having to invent mental work every day"],
+          ["independent","A dog that is very independent or tests boundaries"]
+        ])}
+        ${quizMulti("personality", "Which personalities sound appealing?", [
+          ["affectionate","Very affectionate and social"],
+          ["eager","Eager to learn and work with me"],
+          ["independent","Independent with its own opinions"],
+          ["athletic","Athletic and always ready to go"],
+          ["calm","Calm and easy to live around"]
+        ])}
+        ${quizRadio("training", "How do you feel about training a dog?", [
+          ["basics","I want to teach the basics and have a forgiving dog"],
+          ["regular","Regular short training sessions are fine"],
+          ["hobby","Training is something I would enjoy as a hobby"]
+        ])}
+        ${quizMulti("household", "Which home situations matter?", [
+          ["apartment","Apartment or shared walls"],
+          ["children","Young children"],
+          ["visitors","Frequent visitors or busy social household"]
+        ])}
+        ${quizRadio("weekday", "On a busy weekday, what is realistically sustainable?", [
+          ["short","A few shorter walks and some play"],
+          ["hour","About an hour plus a little training or play"],
+          ["long","Around 1.5 hours of real activity"],
+          ["very-long","2+ hours and I am happy to plan around the dog"]
+        ])}
+        ${quizRadio("ownership", "How central do you want dog ownership to be in your life?", [
+          ["fits-around","The dog should mostly fit around the rest of my life"],
+          ["major","The dog can be a major daily activity"],
+          ["hobby","Training, sport or dog activities can be one of my hobbies"]
+        ])}
+      </div>
+      <p class="quiz-validation" id="quiz-validation" aria-live="polite"></p>
+      <div class="actions">
+        <button class="primary" type="submit">SEE MY MATCHES</button>
+        <button class="secondary" type="reset">RESET QUIZ</button>
+      </div>
+    </form>`;
+}
+
+function quizMulti(key, label, options) {
+  return `
+    <fieldset class="question quiz-question" data-quiz-group="${key}" data-required-group>
+      <legend>${esc(label)}</legend>
+      <p class="select-note">Select all that apply.</p>
+      <div class="choice-list">
+        ${options.map(([value,text]) => `<label class="check-option"><input type="checkbox" name="quiz-${key}" value="${value}"> <span>${esc(text)}</span></label>`).join("")}
+        <label class="check-option none-option"><input type="checkbox" name="quiz-${key}" value="none"> <span>None</span></label>
+      </div>
+    </fieldset>`;
+}
+
+function quizRadio(key, label, options) {
+  return `
+    <fieldset class="question quiz-question" data-radio-group="${key}" data-required-group>
+      <legend>${esc(label)}</legend>
+      <div class="choice-list">
+        ${options.map(([value,text], index) => `<label class="check-option"><input type="radio" name="quiz-${key}" value="${value}"${index === 0 ? "" : ""}> <span>${esc(text)}</span></label>`).join("")}
+      </div>
+    </fieldset>`;
+}
+
+function setupQuiz() {
+  const form = document.getElementById("quiz-form");
+  if (!form) return;
+  setupNoneCheckboxes(form, "[data-quiz-group]");
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    const groups = [...form.querySelectorAll("[data-required-group]")];
+    const missing = groups.filter(group => !group.querySelector("input:checked"));
+    const validation = document.getElementById("quiz-validation");
+    if (missing.length) {
+      validation.textContent = "Answer each question, using “None” where it is offered if nothing applies.";
+      missing[0].scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    validation.textContent = "";
+    const answers = readQuizAnswers(form);
+    const scored = BREEDS.map(breed => ({ breed, score: scoreBreedForQuiz(breed, answers) }));
+    const matches = scored.filter(item => item.score >= 0.68).map(item => item.breed).sort((a,b) => a.name.localeCompare(b.name));
+    renderResults(matches, "home-results", "Quiz matches");
+    document.getElementById("home-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  form.addEventListener("reset", () => {
+    setTimeout(() => {
+      document.getElementById("quiz-validation").textContent = "";
+      const target = document.getElementById("home-results");
+      if (target) target.innerHTML = "";
+    }, 0);
+  });
+}
+
+function readQuizAnswers(form) {
+  const answers = {};
+  form.querySelectorAll("[data-quiz-group]").forEach(group => {
+    answers[group.dataset.quizGroup] = [...group.querySelectorAll("input:checked")].map(i => i.value).filter(v => v !== "none");
+  });
+  form.querySelectorAll("[data-radio-group]").forEach(group => {
+    answers[group.dataset.radioGroup] = group.querySelector("input:checked")?.value || "";
+  });
+  return answers;
+}
+
+function scoreBreedForQuiz(breed, a) {
+  const p = breed.profile;
+  const s = breed.stats;
+  const parts = [];
+
+  const weekendScores = [];
+  for (const choice of a.weekend || []) {
+    if (choice === "hike") weekendScores.push(avg([target5(p.energy, 5, 3), target5(p.exercise, 5, 3)]));
+    if (choice === "training") weekendScores.push(avg([norm5(p.working), norm100(s.trainability), norm100(s.stimulation)]));
+    if (choice === "family") weekendScores.push(avg([norm5(p.children), norm100(s.sociability)]));
+    if (choice === "social") weekendScores.push(avg([norm100(s.sociability), norm5(p.apartment)]));
+    if (choice === "quiet") weekendScores.push(avg([inverse5(p.energy), inverse5(p.exercise)]));
+  }
+  if (weekendScores.length) parts.push(avg(weekendScores));
+
+  const dealbreakerScores = [];
+  for (const choice of a.dealbreakers || []) {
+    if (choice === "hair") dealbreakerScores.push(inverse5(p.shedding));
+    if (choice === "grooming") dealbreakerScores.push(inverse5(p.grooming));
+    if (choice === "noise") dealbreakerScores.push(inverse100(s.barking));
+    if (choice === "stimulation") dealbreakerScores.push(inverse100(s.stimulation));
+    if (choice === "independent") dealbreakerScores.push(inverse100(s.independence));
+  }
+  if (dealbreakerScores.length) parts.push(avg(dealbreakerScores));
+
+  const personalityScores = [];
+  for (const choice of a.personality || []) {
+    if (choice === "affectionate") personalityScores.push(norm100(s.sociability));
+    if (choice === "eager") personalityScores.push(avg([norm100(s.trainability), 1 - norm100(s.independence) * 0.55]));
+    if (choice === "independent") personalityScores.push(norm100(s.independence));
+    if (choice === "athletic") personalityScores.push(avg([norm5(p.energy), norm5(p.exercise)]));
+    if (choice === "calm") personalityScores.push(avg([inverse5(p.energy), inverse5(p.exercise), inverse100(s.barking)]));
+  }
+  if (personalityScores.length) parts.push(avg(personalityScores));
+
+  if (a.training === "basics") parts.push(avg([norm100(s.trainability), inverse5(p.working), p.experience === 1 ? 1 : p.experience === 2 ? 0.65 : 0.35]));
+  if (a.training === "regular") parts.push(avg([norm100(s.trainability), target5(p.working, 3, 3), target5(p.experience, 2, 2)]));
+  if (a.training === "hobby") parts.push(avg([norm100(s.trainability), norm5(p.working), norm100(s.stimulation)]));
+
+  const homeScores = [];
+  for (const choice of a.household || []) {
+    if (choice === "apartment") homeScores.push(avg([norm5(p.apartment), inverse100(s.barking)]));
+    if (choice === "children") homeScores.push(norm5(p.children));
+    if (choice === "visitors") homeScores.push(norm100(s.sociability));
+  }
+  if (homeScores.length) parts.push(avg(homeScores));
+
+  if (a.weekday === "short") parts.push(avg([target5(p.exercise, 1, 3), target5(p.energy, 2, 3)]));
+  if (a.weekday === "hour") parts.push(avg([target5(p.exercise, 2.5, 2.5), target5(p.energy, 3, 3)]));
+  if (a.weekday === "long") parts.push(avg([target5(p.exercise, 4, 2.5), target5(p.energy, 4, 2.5)]));
+  if (a.weekday === "very-long") parts.push(avg([norm5(p.exercise), norm5(p.energy)]));
+
+  if (a.ownership === "fits-around") parts.push(avg([inverse5(p.exercise), inverse5(p.grooming), inverse100(s.stimulation), p.experience === 1 ? 1 : 0.65]));
+  if (a.ownership === "major") parts.push(avg([target5(p.exercise, 4, 3), target5(p.energy, 4, 3), target5(p.working, 3.5, 3)]));
+  if (a.ownership === "hobby") parts.push(avg([norm5(p.working), norm100(s.trainability), norm100(s.stimulation)]));
+
+  return avg(parts);
+}
+
+function renderInlineAllBreeds() {
+  renderResults([...BREEDS].sort((a,b) => a.name.localeCompare(b.name)), "home-results", "All breeds");
+  document.getElementById("home-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function renderResults(breeds, targetId, title) {
@@ -129,8 +457,9 @@ function renderResults(breeds, targetId, title) {
   if (!target) return;
   target.innerHTML = `
     <div class="results-header"><h2>${esc(title)}</h2><div class="count">${breeds.length} breed${breeds.length === 1 ? "" : "s"}</div></div>
-    ${breeds.length ? `<div class="breed-grid">${breeds.map(breedCard).join("")}</div>` : `<div class="empty">No breeds in the current starter database fit every answer. Try changing one answer to “not sure.”</div>`}`;
+    ${breeds.length ? `<div class="breed-grid">${breeds.map(breedCard).join("")}</div>` : `<div class="empty">No breeds in the current database are strong matches for that combination. Change one or two choices and try again.</div>`}`;
   attachBreedLinks(target);
+  activateDynamicCardPhotos(target);
 }
 
 function renderBrowse(size, category) {
@@ -146,18 +475,82 @@ function renderBrowse(size, category) {
   });
   const labels = {all:"All", beginner:"Beginner-friendly", family:"Family-friendly", working:"Working & sport", "low-grooming":"Lower grooming", "low-energy":"Lower energy"};
   app.innerHTML = `
-    <section class="hero">
-      <p class="kicker">Browse breeds</p>
-      <h1>${SIZE_LABELS[size]} dogs</h1>
-      <p class="lead">${esc(labels[category] || "All")} · ${filtered.length} breed${filtered.length === 1 ? "" : "s"} in the current database</p>
+    <section class="browse-heading">
+      <div>
+        <p class="kicker">Browse breeds</p>
+        <h1>${SIZE_LABELS[size]} dogs</h1>
+        <p class="lead">${esc(labels[category] || "All")} · ${filtered.length} breed${filtered.length === 1 ? "" : "s"} in the current database</p>
+      </div>
+      <p class="browse-note">Use the filter if you want to combine several traits without taking the quiz.</p>
     </section>
+    ${filterMarkup("browse-filter")}
+    <section class="results browse-results" id="browse-filter-results" aria-live="polite"></section>
     <section id="browse-results"><div class="breed-grid">${filtered.map(breedCard).join("")}</div></section>`;
   attachBreedLinks(app);
+  activateDynamicCardPhotos(app);
+  setupFilter("browse-filter", "browse-filter-results");
 }
 
 function attachBreedLinks(scope) {
   scope.querySelectorAll("[data-breed]").forEach(button => {
     button.addEventListener("click", () => { location.hash = `breed/${button.dataset.breed}`; });
+  });
+}
+
+async function getCategoryPhotos(category, limit = 6) {
+  const cacheKey = `${category}:${limit}`;
+  if (primaryPhotoCache.has(cacheKey)) return primaryPhotoCache.get(cacheKey);
+  const promise = (async () => {
+    const params = new URLSearchParams({
+      action: "query",
+      generator: "categorymembers",
+      gcmtitle: `Category:${category}`,
+      gcmtype: "file",
+      gcmlimit: String(Math.max(limit * 3, 12)),
+      prop: "imageinfo",
+      iiprop: "url|extmetadata",
+      iiurlwidth: "1200",
+      format: "json",
+      origin: "*"
+    });
+    const response = await fetch(`https://commons.wikimedia.org/w/api.php?${params.toString()}`);
+    if (!response.ok) throw new Error("Commons request failed");
+    const data = await response.json();
+    return Object.values(data.query?.pages || {}).filter(page => {
+      const info = page.imageinfo?.[0];
+      return info?.thumburl && /\.(jpe?g|png|webp)$/i.test(info.url || "");
+    }).slice(0, limit);
+  })();
+  primaryPhotoCache.set(cacheKey, promise);
+  return promise;
+}
+
+async function activateDynamicCardPhotos(scope) {
+  const placeholders = [...scope.querySelectorAll("[data-card-placeholder]")];
+  await Promise.all(placeholders.map(async placeholder => {
+    try {
+      const pages = await getCategoryPhotos(placeholder.dataset.category, 1);
+      const info = pages[0]?.imageinfo?.[0];
+      if (!info?.thumburl) throw new Error("No image");
+      const img = document.createElement("img");
+      img.loading = "lazy";
+      img.src = info.thumburl;
+      img.alt = placeholder.closest("[data-breed]")?.getAttribute("aria-label")?.replace(/^Open /, "") || "Dog breed";
+      placeholder.replaceWith(img);
+    } catch {
+      placeholder.textContent = "Photo unavailable";
+    }
+  }));
+  scope.querySelectorAll("[data-card-img]").forEach(img => {
+    img.addEventListener("error", async () => {
+      if (img.dataset.fallbackTried) return;
+      img.dataset.fallbackTried = "1";
+      try {
+        const pages = await getCategoryPhotos(img.dataset.category, 1);
+        const info = pages[0]?.imageinfo?.[0];
+        if (info?.thumburl) img.src = info.thumburl;
+      } catch {}
+    }, { once: true });
   });
 }
 
@@ -177,6 +570,9 @@ function renderBreed(breed) {
     ["Grooming", breed.products.grooming, `${breed.name} ${breed.products.grooming}`],
     ["Bed / crate", breed.products.bed, `${breed.name} ${breed.products.bed}`]
   ];
+  const mainPhoto = breed.photo
+    ? `<figure class="photo photo-main"><div class="photo-media"><img src="${commonsImage(breed.photo, 1500)}" alt="${esc(breed.name)}"></div><figcaption class="photo-credit"><a href="${commonsPage(breed.photo)}" target="_blank" rel="noopener">Wikimedia Commons source</a></figcaption></figure>`
+    : `<div class="gallery-loading" id="primary-photo-loading">Loading a freely licensed Wikimedia Commons photo…</div>`;
 
   app.innerHTML = `
     <article class="breed-page">
@@ -188,11 +584,15 @@ function renderBreed(breed) {
       <section class="section">
         <p class="section-label">Pictures</p>
         <div class="gallery" id="gallery">
-          <figure class="photo">
-            <div class="photo-media"><img src="${commonsImage(breed.photo, 1400)}" alt="${esc(breed.name)}"></div>
-            <figcaption class="photo-credit"><a href="${commonsPage(breed.photo)}" target="_blank" rel="noopener">Wikimedia Commons source</a></figcaption>
-          </figure>
+          ${mainPhoto}
           <div class="gallery-loading" id="gallery-loading">Loading more freely licensed photos from Wikimedia Commons…</div>
+        </div>
+        <div class="variation-block">
+          <div class="variation-heading">
+            <h3>Common colors &amp; coat variations</h3>
+            <p>These are examples of common appearances. Breed standards can differ by kennel club.</p>
+          </div>
+          <div class="variation-grid" id="variation-grid"><div class="gallery-loading">Loading variation examples…</div></div>
         </div>
       </section>
 
@@ -248,53 +648,96 @@ function renderBreed(breed) {
     window.open(petfinderSearch(breed, zip), "_blank", "noopener");
   });
   loadCommonsGallery(breed);
+  loadVariationGallery(breed);
 }
 
 async function loadCommonsGallery(breed) {
   const gallery = document.getElementById("gallery");
   const loading = document.getElementById("gallery-loading");
+  const primaryLoading = document.getElementById("primary-photo-loading");
   if (!gallery || !loading) return;
   try {
-    const params = new URLSearchParams({
-      action: "query",
-      generator: "categorymembers",
-      gcmtitle: `Category:${breed.category}`,
-      gcmtype: "file",
-      gcmlimit: "18",
-      prop: "imageinfo",
-      iiprop: "url|extmetadata",
-      iiurlwidth: "1200",
-      format: "json",
-      origin: "*"
-    });
-    const response = await fetch(`https://commons.wikimedia.org/w/api.php?${params.toString()}`);
-    if (!response.ok) throw new Error("Commons request failed");
-    const data = await response.json();
-    const pages = Object.values(data.query?.pages || {}).filter(page => {
-      const info = page.imageinfo?.[0];
-      return info?.thumburl && /\.(jpe?g|png|webp)$/i.test(info.url || "") && !page.title.endsWith(breed.photo);
-    }).slice(0, 2);
-    loading.remove();
-    for (const page of pages) {
-      const info = page.imageinfo[0];
-      const meta = info.extmetadata || {};
-      const artist = plainText(meta.Artist?.value) || "Wikimedia Commons contributor";
-      const license = plainText(meta.LicenseShortName?.value) || "free license";
-      const source = `https://commons.wikimedia.org/wiki/${encodeURIComponent(page.title.replaceAll(" ", "_"))}`;
-      const figure = document.createElement("figure");
-      figure.className = "photo";
-      figure.innerHTML = `<div class="photo-media"><img loading="lazy" src="${esc(info.thumburl)}" alt="${esc(breed.name)}"></div><figcaption class="photo-credit">${esc(artist)} · ${esc(license)} · <a href="${esc(source)}" target="_blank" rel="noopener">source</a></figcaption>`;
-      gallery.appendChild(figure);
+    const pages = await getCategoryPhotos(breed.category, 7);
+    if (primaryLoading && pages.length) {
+      const first = pages.shift();
+      const figure = commonsFigure(first, breed.name, "photo photo-main");
+      primaryLoading.replaceWith(figure);
     }
-    if (!pages.length) {
+    const staticName = String(breed.photo || "").toLowerCase();
+    const extras = pages.filter(page => !staticName || !page.title.toLowerCase().endsWith(staticName)).slice(0, 5);
+    loading.remove();
+    for (const page of extras) gallery.appendChild(commonsFigure(page, breed.name, "photo"));
+    if (!extras.length) {
       const fallback = document.createElement("div");
       fallback.className = "gallery-loading";
-      fallback.textContent = "More photos are available from the Wikimedia Commons source link.";
+      fallback.innerHTML = `More photos are available in the <a href="${commonsCategoryPage(breed.category)}" target="_blank" rel="noopener">Wikimedia Commons category</a>.`;
       gallery.appendChild(fallback);
     }
-  } catch (error) {
-    loading.textContent = "More photos could not be loaded right now. The main photo source is linked above.";
+  } catch {
+    loading.textContent = "More photos could not be loaded right now. The main image source is still linked above.";
   }
+}
+
+function commonsFigure(page, alt, className = "photo") {
+  const info = page.imageinfo?.[0] || {};
+  const meta = info.extmetadata || {};
+  const artist = plainText(meta.Artist?.value) || "Wikimedia Commons contributor";
+  const license = plainText(meta.LicenseShortName?.value) || "free license";
+  const source = `https://commons.wikimedia.org/wiki/${encodeURIComponent(page.title.replaceAll(" ", "_"))}`;
+  const figure = document.createElement("figure");
+  figure.className = className;
+  figure.innerHTML = `<div class="photo-media"><img loading="lazy" src="${esc(info.thumburl)}" alt="${esc(alt)}"></div><figcaption class="photo-credit">${esc(artist)} · ${esc(license)} · <a href="${esc(source)}" target="_blank" rel="noopener">source</a></figcaption>`;
+  return figure;
+}
+
+async function searchCommonsPhoto(query) {
+  const params = new URLSearchParams({
+    action: "query",
+    generator: "search",
+    gsrsearch: query,
+    gsrnamespace: "6",
+    gsrlimit: "8",
+    prop: "imageinfo",
+    iiprop: "url|extmetadata",
+    iiurlwidth: "900",
+    format: "json",
+    origin: "*"
+  });
+  const response = await fetch(`https://commons.wikimedia.org/w/api.php?${params.toString()}`);
+  if (!response.ok) throw new Error("Commons search failed");
+  const data = await response.json();
+  return Object.values(data.query?.pages || {}).find(page => {
+    const info = page.imageinfo?.[0];
+    return info?.thumburl && /\.(jpe?g|png|webp)$/i.test(info.url || "");
+  }) || null;
+}
+
+async function loadVariationGallery(breed) {
+  const grid = document.getElementById("variation-grid");
+  if (!grid) return;
+  const variations = BREED_VARIATIONS[breed.id] || [`${breed.name} adult`, `${breed.name} puppy`, `${breed.name} coat`];
+  grid.innerHTML = "";
+  for (const query of variations.slice(0, 4)) {
+    const card = document.createElement("article");
+    card.className = "variation-card";
+    card.innerHTML = `<div class="variation-image"><div class="photo-placeholder">Loading…</div></div><h4>${esc(humanizeVariation(query, breed.name))}</h4>`;
+    grid.appendChild(card);
+    try {
+      const page = await searchCommonsPhoto(query);
+      const info = page?.imageinfo?.[0];
+      if (!page || !info?.thumburl) throw new Error("No image");
+      const source = `https://commons.wikimedia.org/wiki/${encodeURIComponent(page.title.replaceAll(" ", "_"))}`;
+      card.querySelector(".variation-image").innerHTML = `<a href="${esc(source)}" target="_blank" rel="noopener"><img loading="lazy" src="${esc(info.thumburl)}" alt="${esc(query)}"></a>`;
+    } catch {
+      card.querySelector(".photo-placeholder").textContent = "Example unavailable";
+    }
+  }
+}
+
+function humanizeVariation(query, breedName) {
+  const cleaned = String(query).replace(new RegExp(breedName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "ig"), "").replace(/\bdog\b/ig, "").trim();
+  if (!cleaned) return breedName;
+  return cleaned.replace(/\b\w/g, char => char.toUpperCase());
 }
 
 function plainText(html) {
@@ -303,8 +746,8 @@ function plainText(html) {
   return (doc.body.textContent || "").trim();
 }
 
-async function renderCredits() {
-  app.innerHTML = `<section class="hero"><p class="kicker">Sources</p><h1>Photo credits</h1><p class="lead">The starter images are hosted by Wikimedia Commons. Each file's license and attribution requirements are controlled by its Commons file page.</p></section><div class="credits-list">${BREEDS.map(b => `<div class="credit-row"><strong>${esc(b.name)}</strong><div class="credit-meta"><a href="${commonsPage(b.photo)}" target="_blank" rel="noopener">${esc(b.photo)}</a> · Wikimedia Commons</div></div>`).join("")}</div>`;
+function renderCredits() {
+  app.innerHTML = `<section class="hero"><p class="kicker">Sources</p><h1>Photo credits</h1><p class="lead">Breed photography comes from Wikimedia Commons. Static starter images link to their file pages, while additional gallery and variation images display their source links beside or through each image.</p></section><div class="credits-list">${BREEDS.map(b => `<div class="credit-row"><strong>${esc(b.name)}</strong><div class="credit-meta">${b.photo ? `<a href="${commonsPage(b.photo)}" target="_blank" rel="noopener">${esc(b.photo)}</a>` : `<a href="${commonsCategoryPage(b.category)}" target="_blank" rel="noopener">Commons category</a>`} · Wikimedia Commons</div></div>`).join("")}</div>`;
 }
 
 function setActiveNav(route) {
@@ -320,15 +763,15 @@ function route() {
   setActiveNav(raw);
   closeDropdowns();
   const parts = raw.split("/");
-  if (parts[0] === "quiz") renderQuiz();
+  if (parts[0] === "quiz") renderHome();
   else if (parts[0] === "browse" && ["small","medium","large"].includes(parts[1])) renderBrowse(parts[1], parts[2] || "all");
   else if (parts[0] === "breed") {
     const breed = BREEDS.find(b => b.id === parts[1]);
-    breed ? renderBreed(breed) : renderQuiz();
+    breed ? renderBreed(breed) : renderHome();
   } else if (parts[0] === "credits") renderCredits();
-  else renderQuiz();
-  app.focus({preventScroll:true});
-  window.scrollTo({top:0, behavior:"instant"});
+  else renderHome();
+  app.focus({ preventScroll: true });
+  window.scrollTo({ top: 0, behavior: "instant" });
 }
 
 function closeDropdowns() {
