@@ -17,10 +17,10 @@ const STAT_LABELS = {
 
 const BREED_VARIATIONS = {
   "labrador-retriever": ["yellow Labrador Retriever", "black Labrador Retriever", "chocolate Labrador Retriever"],
-  "golden-retriever": ["light Golden Retriever", "golden Golden Retriever", "dark Golden Retriever"],
+  "golden-retriever": ["light Golden Retriever", "medium gold Golden Retriever", "dark Golden Retriever"],
   "german-shepherd-dog": ["black and tan German Shepherd", "sable German Shepherd", "black German Shepherd"],
   "great-dane": ["fawn Great Dane", "harlequin Great Dane", "blue Great Dane", "brindle Great Dane"],
-  "bernese-mountain-dog": ["Bernese Mountain Dog adult", "Bernese Mountain Dog puppy", "Bernese Mountain Dog coat"],
+  "bernese-mountain-dog": [],
   "standard-poodle": ["black Standard Poodle", "white Standard Poodle", "brown Standard Poodle", "red Standard Poodle"],
   "border-collie": ["black white Border Collie", "red white Border Collie", "blue merle Border Collie", "tricolor Border Collie"],
   "australian-shepherd": ["blue merle Australian Shepherd", "red merle Australian Shepherd", "black tri Australian Shepherd", "red tri Australian Shepherd"],
@@ -28,7 +28,7 @@ const BREED_VARIATIONS = {
   "english-cocker-spaniel": ["black English Cocker Spaniel", "golden English Cocker Spaniel", "blue roan English Cocker Spaniel", "orange roan English Cocker Spaniel"],
   "shiba-inu": ["red Shiba Inu", "black tan Shiba Inu", "sesame Shiba Inu", "cream Shiba Inu"],
   "siberian-husky": ["black white Siberian Husky", "gray white Siberian Husky", "red white Siberian Husky", "agouti Siberian Husky"],
-  "dachshund": ["smooth Dachshund", "longhaired Dachshund", "wirehaired Dachshund", "red Dachshund"],
+  "dachshund": ["smooth Dachshund", "longhaired Dachshund", "wirehaired Dachshund"],
   "cavalier-king-charles-spaniel": ["Blenheim Cavalier King Charles Spaniel", "tricolor Cavalier King Charles Spaniel", "ruby Cavalier King Charles Spaniel", "black tan Cavalier King Charles Spaniel"],
   "miniature-schnauzer": ["salt pepper Miniature Schnauzer", "black silver Miniature Schnauzer", "black Miniature Schnauzer"],
   "pomeranian": ["orange Pomeranian", "cream Pomeranian", "black Pomeranian", "sable Pomeranian"],
@@ -36,18 +36,18 @@ const BREED_VARIATIONS = {
   "newfoundland": ["black Newfoundland dog", "brown Newfoundland dog", "Landseer Newfoundland dog"],
   "doberman-pinscher": ["black rust Doberman", "red rust Doberman", "blue Doberman", "fawn Doberman"],
   "boxer": ["fawn Boxer dog", "brindle Boxer dog", "white Boxer dog"],
-  "rottweiler": ["Rottweiler adult", "Rottweiler puppy", "Rottweiler markings"],
+  "rottweiler": [],
   "greyhound": ["black Greyhound dog", "brindle Greyhound dog", "fawn Greyhound dog", "blue Greyhound dog"],
-  "australian-cattle-dog": ["blue Australian Cattle Dog", "red Australian Cattle Dog", "speckled Australian Cattle Dog"],
+  "australian-cattle-dog": ["blue Australian Cattle Dog", "red Australian Cattle Dog"],
   "english-springer-spaniel": ["liver white English Springer Spaniel", "black white English Springer Spaniel", "tricolor English Springer Spaniel"],
   "brittany": ["orange white Brittany dog", "liver white Brittany dog", "roan Brittany dog"],
   "basenji": ["red white Basenji", "black white Basenji", "tricolor Basenji", "brindle Basenji"],
   "whippet": ["brindle Whippet", "fawn Whippet", "black Whippet", "blue Whippet"],
   "havanese": ["black Havanese", "white Havanese", "chocolate Havanese", "sable Havanese"],
-  "bichon-frise": ["white Bichon Frise", "cream Bichon Frise", "Bichon Frise puppy"],
+  "bichon-frise": [],
   "papillon": ["sable Papillon dog", "black white Papillon dog", "tricolor Papillon dog"],
   "jack-russell-terrier": ["white tan Jack Russell Terrier", "tricolor Jack Russell Terrier", "white black Jack Russell Terrier"],
-  "maltese": ["white Maltese dog", "Maltese puppy", "Maltese long coat"]
+  "maltese": []
 };
 
 const primaryPhotoCache = new Map();
@@ -269,6 +269,11 @@ function quizMarkup() {
       ["some","I have lived with or trained dogs before"],
       ["experienced","I am experienced and comfortable handling more demanding breeds"]
     ]),
+    quizMulti("size", "Which dog sizes would you consider?", [
+      ["small","Small"],
+      ["medium","Medium"],
+      ["large","Large"]
+    ]),
     quizRadio("weekday", "On a busy weekday, what is realistically sustainable?", [
       ["short","A few shorter walks and some play"],
       ["hour","About an hour plus a little training or play"],
@@ -402,7 +407,8 @@ function setupQuiz() {
     }
     validation.textContent = "";
     const answers = readQuizAnswers(form);
-    const scored = BREEDS.map(breed => ({ breed, score: scoreBreedForQuiz(breed, answers) }));
+    const sizePool = answers.size?.length ? BREEDS.filter(breed => answers.size.includes(breed.size)) : BREEDS;
+    const scored = sizePool.map(breed => ({ breed, score: scoreBreedForQuiz(breed, answers) }));
     const matches = scored.filter(item => item.score >= 0.68).map(item => item.breed).sort((a,b) => a.name.localeCompare(b.name));
     renderResults(matches, "home-results", "Quiz matches");
     document.getElementById("home-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -774,20 +780,41 @@ async function loadCommonsGallery(breed) {
   const loading = document.getElementById("gallery-loading");
   const primaryLoading = document.getElementById("primary-photo-loading");
   if (!gallery || !loading) return;
+
   try {
-    const pages = await getCategoryPhotos(breed.category, 7);
-    if (primaryLoading && pages.length) {
-      const first = pages.shift();
-      const figure = commonsFigure(first, breed.name, "photo photo-main");
-      primaryLoading.replaceWith(figure);
+    const results = [];
+    const seen = new Set();
+    const staticFile = String(breed.photo || "").toLowerCase();
+
+    const addPages = pages => {
+      for (const page of pages || []) {
+        const title = String(page.title || "").toLowerCase();
+        const fileName = title.replace(/^file:/, "");
+        if (!title || seen.has(title) || (staticFile && fileName === staticFile)) continue;
+        const info = page.imageinfo?.[0];
+        if (!info?.thumburl) continue;
+        seen.add(title);
+        results.push(page);
+      }
+    };
+
+    try { addPages(await getCategoryPhotos(breed.category, 10)); } catch {}
+    if (results.length < 5) {
+      try { addPages(await searchCommonsPhotos(`${breed.name} dog`, 14)); } catch {}
     }
-    const staticName = String(breed.photo || "").toLowerCase();
-    const extras = pages.filter(page => !staticName || !page.title.toLowerCase().endsWith(staticName)).slice(0, 5);
+    if (results.length < 5) {
+      try { addPages(await searchCommonsPhotos(`${breed.name} breed`, 14)); } catch {}
+    }
+
+    if (primaryLoading && results.length) {
+      const first = results.shift();
+      primaryLoading.replaceWith(commonsFigure(first, breed.name, "photo photo-main"));
+    }
+
     loading.remove();
-    for (const page of extras) gallery.appendChild(commonsFigure(page, breed.name, "photo"));
-    if (!extras.length) { loading?.remove(); }
+    results.slice(0, 5).forEach(page => gallery.appendChild(commonsFigure(page, breed.name, "photo")));
   } catch {
-    loading.remove();
+    loading.textContent = "Additional photos are temporarily unavailable.";
   }
 }
 
@@ -803,50 +830,85 @@ function commonsFigure(page, alt, className = "photo") {
   return figure;
 }
 
-async function searchCommonsPhoto(query) {
+async function searchCommonsPhotos(query, limit = 10) {
   const params = new URLSearchParams({
     action: "query",
     generator: "search",
     gsrsearch: query,
     gsrnamespace: "6",
-    gsrlimit: "8",
+    gsrlimit: String(Math.max(limit * 2, 12)),
     prop: "imageinfo",
     iiprop: "url|extmetadata",
-    iiurlwidth: "900",
+    iiurlwidth: "1200",
     format: "json",
     origin: "*"
   });
   const response = await fetch(`https://commons.wikimedia.org/w/api.php?${params.toString()}`);
   if (!response.ok) throw new Error("Commons search failed");
   const data = await response.json();
-  return Object.values(data.query?.pages || {}).find(page => {
+  const seen = new Set();
+  return Object.values(data.query?.pages || {}).filter(page => {
     const info = page.imageinfo?.[0];
-    return info?.thumburl && /\.(jpe?g|png|webp)$/i.test(info.url || "");
-  }) || null;
+    if (!info?.thumburl || !/\.(jpe?g|png|webp)$/i.test(info.url || "")) return false;
+    const key = String(page.title || info.url).toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, limit);
+}
+
+function variationKeywords(query, breedName) {
+  const breedWords = new Set(String(breedName).toLowerCase().split(/\s+/));
+  return String(query).toLowerCase().split(/\s+/).filter(word => word.length > 2 && !breedWords.has(word) && word !== "dog");
+}
+
+function chooseVariationPhoto(pages, query, breedName, usedTitles) {
+  const keywords = variationKeywords(query, breedName);
+  return pages
+    .filter(page => !usedTitles.has(String(page.title).toLowerCase()))
+    .map(page => {
+      const title = String(page.title || "").toLowerCase();
+      const description = plainText(page.imageinfo?.[0]?.extmetadata?.ImageDescription?.value || "").toLowerCase();
+      const haystack = `${title} ${description}`;
+      const score = keywords.reduce((total, word) => total + (haystack.includes(word) ? 3 : 0), 0) + (haystack.includes(breedName.toLowerCase()) ? 2 : 0);
+      return { page, score };
+    })
+    .sort((a,b) => b.score - a.score)[0]?.page || null;
 }
 
 async function loadVariationGallery(breed) {
   const grid = document.getElementById("variation-grid");
-  if (!grid) return;
-  const variations = BREED_VARIATIONS[breed.id] || [`${breed.name} adult`, `${breed.name} puppy`, `${breed.name} coat`];
-  grid.innerHTML = "";
-  for (const query of variations.slice(0, 4)) {
-    const card = document.createElement("article");
-    card.className = "variation-card";
-    card.innerHTML = `<div class="variation-image"><div class="photo-placeholder">Loading…</div></div><h4>${esc(humanizeVariation(query, breed.name))}</h4>`;
-    grid.appendChild(card);
-    try {
-      const page = await searchCommonsPhoto(query);
-      const info = page?.imageinfo?.[0];
-      if (!page || !info?.thumburl) throw new Error("No image");
-      const source = `https://commons.wikimedia.org/wiki/${encodeURIComponent(page.title.replaceAll(" ", "_"))}`;
-      card.querySelector(".variation-image").innerHTML = `<a href="${esc(source)}" target="_blank" rel="noopener"><img loading="lazy" src="${esc(info.thumburl)}" alt="${esc(query)}"></a>`;
-    } catch {
-      const imageBox = card.querySelector(".variation-image");
-      if (breed.photo) imageBox.innerHTML = `<img loading="lazy" src="${commonsImage(breed.photo, 900)}" alt="${esc(breed.name)}">`;
-      else card.querySelector(".photo-placeholder").textContent = "Photo unavailable";
-    }
+  const block = document.querySelector(".variation-block");
+  if (!grid || !block) return;
+  const variations = BREED_VARIATIONS[breed.id] || [];
+  if (!variations.length) {
+    block.hidden = true;
+    return;
   }
+
+  grid.innerHTML = "";
+  const usedTitles = new Set([`file:${String(breed.photo || "").toLowerCase()}`]);
+  let rendered = 0;
+
+  for (const query of variations.slice(0, 4)) {
+    try {
+      const pages = await searchCommonsPhotos(query, 12);
+      const page = chooseVariationPhoto(pages, query, breed.name, usedTitles);
+      const info = page?.imageinfo?.[0];
+      if (!page || !info?.thumburl) continue;
+      const titleKey = String(page.title).toLowerCase();
+      if (usedTitles.has(titleKey)) continue;
+      usedTitles.add(titleKey);
+      const source = `https://commons.wikimedia.org/wiki/${encodeURIComponent(page.title.replaceAll(" ", "_"))}`;
+      const card = document.createElement("article");
+      card.className = "variation-card";
+      card.innerHTML = `<div class="variation-image"><a href="${esc(source)}" target="_blank" rel="noopener"><img loading="lazy" src="${esc(info.thumburl)}" alt="${esc(query)}"></a></div><h4>${esc(humanizeVariation(query, breed.name))}</h4>`;
+      grid.appendChild(card);
+      rendered += 1;
+    } catch {}
+  }
+
+  if (!rendered) block.hidden = true;
 }
 
 function humanizeVariation(query, breedName) {

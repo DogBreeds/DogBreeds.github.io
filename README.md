@@ -4,13 +4,13 @@ A dependency-free static dog-breed guide designed for GitHub Pages.
 
 ## What is included
 
-- One-question-at-a-time quiz that starts only after clicking **Take the Quiz**, begins with owner experience, and uses lifestyle questions to score overall matches
+- One-question-at-a-time quiz that starts only after clicking **Take the Quiz**, begins with owner experience, includes a multi-select dog-size question, and uses lifestyle questions to score overall matches
 - Collapsible multi-select filter inside Large / Medium / Small browsing; the current size is preselected automatically
 - 32 curated breeds
 - Breed facts and relative trait stats
 - Specific disadvantages and notable health tradeoffs
 - Multiple freely licensed photos per breed from Wikimedia Commons
-- Common coat / color variations with separate example photos
+- Common coat / color variations with unique example photos only when the breed has meaningful variations; puppy/adult age is not treated as a variation
 - On-page nearby shelter and rescue search by U.S. ZIP code
 - Breed-specific Amazon product searches
 - Cream, brown, moss, blue and salmon visual system with fixed, irregular paw-print trails
@@ -49,7 +49,7 @@ Product searches are breed-specific and use the breed’s typical size and coat 
 
 ## Photos and variations
 
-Images come from Wikimedia Commons. Starter images use known Commons files; additional gallery and variation images are loaded through the Wikimedia Commons API. Each displayed gallery/variation image links back to its Commons file page so its exact license and attribution can be checked.
+Images come from Wikimedia Commons. Starter images use known Commons files; additional gallery images use both category and search fallbacks, while variation images are kept unique and are never replaced with the same starter photo. Each displayed gallery/variation image links back to its Commons file page so its exact license and attribution can be checked.
 
 Before a commercial launch, do a final license audit of the selected files and preserve any attribution or share-alike requirements listed on their source pages.
 
