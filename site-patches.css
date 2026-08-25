@@ -1,7 +1,3 @@
-.header-wrap {
-  max-width: 1320px;
-}
-
 @media (hover: hover) and (pointer: fine) {
   .variation-card {
     position: relative;
