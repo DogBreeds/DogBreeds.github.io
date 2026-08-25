@@ -1,9 +1,9 @@
 (() => {
   const MAIN_PHOTOS = {
     "german-shepherd-dog": "Adult male German shepherd dog standing at the beach (retouched).jpg",
-    "standard-poodle": "Poodle Standard.jpg",
-    "rhodesian-ridgeback": "Rhodesian Ridgeback dog.jpg",
-    "weimaraner": "Weimaraner.jpg",
+    "standard-poodle": "AKC Helena Fall Dog Show 2011 (6187041897).jpg",
+    "rhodesian-ridgeback": "Big rhodesian male IMG 6830.JPG",
+    "weimaraner": "Weimaraner Freika-24.jpg",
     "boxer": "Boxer_puppy_.jpg",
     "rottweiler": "New Pose - panoramio.jpg",
     "west-highland-white-terrier": "A Westie Adult.jpg",
@@ -46,6 +46,7 @@
   const GALLERY_OVERRIDES = {
     "german-shepherd-dog": ["20110425 German Shepherd Dog 8505.jpg", "Grauer Deutscher Schäferhund Standbild.jpg", "German Shepherd Dog standing.jpg"],
     "standard-poodle": ["Red Standard Poodle.jpg", "Standard black Poodle.jpg", "Standard Poodle cream standing.jpg"],
+    "rhodesian-ridgeback": ["RhodesianRidgebackFemale4years.jpg"],
     "rottweiler": ["\"Prince\" (6302921969).jpg", "\"Prince\" (7216225820).jpg", "Rottweiler-dog.jpg"],
     "whippet": ["Whippet1.jpg", "Whippet fawn.jpg"],
     "west-highland-white-terrier": ["WestHighlandWhiteTerrier.JPG", "West-highland-white-terrier-dog.jpg"],
@@ -119,9 +120,7 @@
 
     gallery.innerHTML = "";
     gallery.appendChild(exactPhotoFigure(spec.main, breed.name, "photo photo-main"));
-    for (const fileName of spec.sides) {
-      gallery.appendChild(exactPhotoFigure(fileName, `${breed.name} photo`));
-    }
+    for (const fileName of spec.sides) gallery.appendChild(exactPhotoFigure(fileName, `${breed.name} photo`));
     gallery.dataset.interactive = "";
     if (typeof setupGalleryInteractions === "function") setupGalleryInteractions();
   }
