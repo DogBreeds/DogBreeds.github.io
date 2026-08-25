@@ -20,11 +20,21 @@
     "whippet": ["Whippet1.jpg", "Whippet fawn.jpg"],
     "west-highland-white-terrier": ["WestHighlandWhiteTerrier.JPG", "West-highland-white-terrier-dog.jpg"],
     "yorkshire-terrier": ["Yorkie standing.jpg"],
-    "miniature-schnauzer": ["Silver Schnauzer - Abby.jpg", "Miniature Schnauzer Jordy.jpg"]
+    "miniature-schnauzer": ["Silver Schnauzer - Abby.jpg", "Miniature Schnauzer Jordy.jpg", "Schnauzer nain noir.jpg"]
   };
 
   const SCHNAUZER_MAIN = "Miniature schnauzer blackandsilver.jpg";
-  const SCHNAUZER_SIDES = ["Silver Schnauzer - Abby.jpg", "Miniature Schnauzer Jordy.jpg"];
+  const SCHNAUZER_SIDES = [
+    "Silver Schnauzer - Abby.jpg",
+    "Miniature Schnauzer Jordy.jpg",
+    "Schnauzer nain noir.jpg"
+  ];
+
+  const SCHNAUZER_VARIATIONS = [
+    { label: "Salt & Pepper", photo: "Miniature Schnauzer Jordy.jpg" },
+    { label: "Black & Silver", photo: SCHNAUZER_MAIN },
+    { label: "Solid Black", photo: "Schnauzer nain noir.jpg" }
+  ];
 
   function applyDataPatches() {
     if (typeof BREEDS !== "undefined") {
@@ -41,10 +51,11 @@
       const spec = AKC_VARIATIONS["miniature-schnauzer"];
       spec.summary = "Breed-standard colors are Salt & Pepper, Black & Silver, and Solid Black.";
       spec.colors = ["Salt & Pepper", "Black & Silver", "Solid Black"];
-      spec.examples = [
-        { label: "Salt & Pepper", query: "adult salt pepper Miniature Schnauzer dog", photo: "Miniature Schnauzer Jordy.jpg" },
-        { label: "Black & Silver", query: "adult black silver Miniature Schnauzer dog", photo: SCHNAUZER_MAIN }
-      ];
+      spec.examples = SCHNAUZER_VARIATIONS.map(item => ({
+        label: item.label,
+        query: `adult ${item.label} Miniature Schnauzer dog`,
+        photo: item.photo
+      }));
     }
   }
 
@@ -59,7 +70,6 @@
     const img = document.createElement("img");
     img.src = commonsImage(fileName, 1200);
     img.alt = alt;
-    img.addEventListener("error", () => figure.remove(), { once: true });
     media.appendChild(img);
 
     const caption = document.createElement("figcaption");
@@ -74,17 +84,52 @@
     return figure;
   }
 
+  function renderExactSchnauzerGallery(breed) {
+    const gallery = document.getElementById("gallery");
+    if (!gallery) return;
+    gallery.innerHTML = "";
+    gallery.appendChild(exactPhotoFigure(SCHNAUZER_MAIN, breed.name, "photo photo-main"));
+    for (const fileName of SCHNAUZER_SIDES) {
+      gallery.appendChild(exactPhotoFigure(fileName, `${breed.name} photo`));
+    }
+    gallery.dataset.interactive = "";
+    if (typeof setupGalleryInteractions === "function") setupGalleryInteractions();
+  }
+
+  function renderExactSchnauzerVariations(breed) {
+    const grid = document.getElementById("variation-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+
+    for (const example of SCHNAUZER_VARIATIONS) {
+      const card = document.createElement("article");
+      card.className = "variation-card";
+
+      const media = document.createElement("div");
+      media.className = "variation-image";
+      const link = document.createElement("a");
+      link.href = commonsPage(example.photo);
+      link.target = "_blank";
+      link.rel = "noopener";
+      const img = document.createElement("img");
+      img.src = commonsImage(example.photo, 1000);
+      img.alt = `${breed.name} ${example.label}`;
+      link.appendChild(img);
+      media.appendChild(link);
+
+      const label = document.createElement("h4");
+      label.textContent = example.label;
+      card.append(media, label);
+      grid.appendChild(card);
+    }
+  }
+
   function installExactSchnauzerGallery() {
     if (typeof loadBreedGallery !== "function" || loadBreedGallery.__schnauzerLocked) return;
     const original = loadBreedGallery;
     const replacement = async function(breed) {
       if (!breed || breed.id !== "miniature-schnauzer") return original(breed);
-      const gallery = document.getElementById("gallery");
-      if (!gallery) return;
-
-      gallery.querySelectorAll(".photo:not(.photo-main), .gallery-loading").forEach(node => node.remove());
-      for (const fileName of SCHNAUZER_SIDES) gallery.appendChild(exactPhotoFigure(fileName, `${breed.name} photo`));
-      if (typeof setupGalleryInteractions === "function") setupGalleryInteractions();
+      renderExactSchnauzerGallery(breed);
     };
     replacement.__schnauzerLocked = true;
     loadBreedGallery = replacement;
@@ -95,35 +140,7 @@
     const original = loadVariationGallery;
     const replacement = async function(breed) {
       if (!breed || breed.id !== "miniature-schnauzer") return original(breed);
-      const grid = document.getElementById("variation-grid");
-      if (!grid) return;
-      grid.innerHTML = "";
-
-      const examples = [
-        { label: "Salt & Pepper", photo: "Miniature Schnauzer Jordy.jpg" },
-        { label: "Black & Silver", photo: SCHNAUZER_MAIN }
-      ];
-
-      for (const example of examples) {
-        const card = document.createElement("article");
-        card.className = "variation-card";
-        const media = document.createElement("div");
-        media.className = "variation-image";
-        const link = document.createElement("a");
-        link.href = commonsPage(example.photo);
-        link.target = "_blank";
-        link.rel = "noopener";
-        const img = document.createElement("img");
-        img.src = commonsImage(example.photo, 1000);
-        img.alt = `${breed.name} ${example.label}`;
-        img.addEventListener("error", () => card.remove(), { once: true });
-        link.appendChild(img);
-        media.appendChild(link);
-        const label = document.createElement("h4");
-        label.textContent = example.label;
-        card.append(media, label);
-        grid.appendChild(card);
-      }
+      renderExactSchnauzerVariations(breed);
     };
     replacement.__schnauzerLocked = true;
     loadVariationGallery = replacement;
@@ -148,6 +165,13 @@
   function afterRoute() {
     removeAppFocusRing();
     patchShelterCopy();
+    if (location.hash === "#breed/miniature-schnauzer") {
+      const breed = typeof BREEDS !== "undefined" ? BREEDS.find(item => item.id === "miniature-schnauzer") : null;
+      if (breed) {
+        renderExactSchnauzerGallery(breed);
+        renderExactSchnauzerVariations(breed);
+      }
+    }
   }
 
   applyDataPatches();
@@ -156,6 +180,10 @@
   removeAppFocusRing();
 
   if (typeof route === "function") route();
-  afterRoute();
-  window.addEventListener("hashchange", () => setTimeout(afterRoute, 0));
+  setTimeout(afterRoute, 0);
+  setTimeout(afterRoute, 500);
+  window.addEventListener("hashchange", () => {
+    setTimeout(afterRoute, 0);
+    setTimeout(afterRoute, 500);
+  });
 })();
