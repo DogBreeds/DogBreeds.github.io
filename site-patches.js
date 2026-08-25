@@ -8,7 +8,8 @@
     "rottweiler": "New Pose - panoramio.jpg",
     "west-highland-white-terrier": "A Westie Adult.jpg",
     "whippet": "A whippet in the forests of Sweden.jpg",
-    "yorkshire-terrier": "Yorkshireterrierbowie.JPG"
+    "yorkshire-terrier": "Yorkshireterrierbowie.JPG",
+    "miniature-schnauzer": "Miniature Schnauzer (Salt and Pepper).jpg"
   };
 
   const GALLERY_OVERRIDES = {
@@ -42,6 +43,11 @@
     ],
     "yorkshire-terrier": [
       "Yorkie standing.jpg"
+    ],
+    "miniature-schnauzer": [
+      "Silver Schnauzer - Abby.jpg",
+      "Miniature Schnauzer Jordy.jpg",
+      "Miniature schnauzer blackandsilver.jpg"
     ]
   };
 
@@ -56,6 +62,32 @@
         CURATED_GALLERY[id] = photos;
       }
     }
+    if (typeof AKC_VARIATIONS !== "undefined" && AKC_VARIATIONS["miniature-schnauzer"]) {
+      AKC_VARIATIONS["miniature-schnauzer"].summary = "Breed-standard colors are Salt & Pepper, Black & Silver, and Solid Black.";
+      AKC_VARIATIONS["miniature-schnauzer"].colors = ["Salt & Pepper", "Black & Silver", "Solid Black"];
+      AKC_VARIATIONS["miniature-schnauzer"].examples = [
+        {
+          label: "Salt & Pepper",
+          query: "adult salt pepper Miniature Schnauzer dog",
+          photo: "Miniature Schnauzer salt & pepper.jpg"
+        },
+        {
+          label: "Black & Silver",
+          query: "adult black silver Miniature Schnauzer dog",
+          photo: "Miniature schnauzer blackandsilver.jpg"
+        },
+        {
+          label: "Solid Black",
+          query: "adult black Miniature Schnauzer dog",
+          photo: "Schnauzer nain noir.jpg"
+        }
+      ];
+    }
+  }
+
+  function removeAppFocusRing() {
+    const app = document.getElementById("app");
+    if (app) app.style.outline = "none";
   }
 
   function patchShelterCopy() {
@@ -109,11 +141,13 @@
   }
 
   function afterRoute() {
+    removeAppFocusRing();
     patchShelterCopy();
     bindImageFallbacks();
   }
 
   applyDataPatches();
+  removeAppFocusRing();
 
   if (typeof route === "function") route();
   afterRoute();
