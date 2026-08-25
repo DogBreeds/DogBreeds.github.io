@@ -60,9 +60,8 @@
 
   function patchShelterCopy() {
     const input = document.querySelector("#location");
-    if (input) {
+    if (input && input.placeholder !== "e.g. London, UK or Montreal, QC") {
       input.placeholder = "e.g. London, UK or Montreal, QC";
-      input.autocomplete = "postal-code";
     }
 
     const box = document.querySelector(".shelter-box");
@@ -70,12 +69,13 @@
     if (help) {
       const heading = document.querySelector(".breed-heading h1, .breed-title h1, .breed-page h1");
       const breedName = heading?.textContent?.trim() || "this breed";
-      help.textContent = `Works internationally using OpenStreetMap location and shelter data. Your location is only used for this live shelter lookup and is not prefilled or published by the site. Availability changes quickly, so contact each shelter to ask whether they currently have a ${breedName} or similar mix.`;
+      const copy = `Works internationally using OpenStreetMap location and shelter data. Your location is only used for this live shelter lookup and is not prefilled or published by the site. Availability changes quickly, so contact each shelter to ask whether they currently have a ${breedName} or similar mix.`;
+      if (help.textContent !== copy) help.textContent = copy;
     }
   }
 
-  function bindImageFallbacks() {
-    document.querySelectorAll("img").forEach(img => {
+  function bindImageFallbacks(root = document) {
+    root.querySelectorAll("img").forEach(img => {
       if (img.dataset.sitePatchBound === "1") return;
       img.dataset.sitePatchBound = "1";
       img.addEventListener("error", () => {
@@ -108,18 +108,28 @@
     });
   }
 
-  function applyRenderedPatches() {
+  function afterRoute() {
     patchShelterCopy();
     bindImageFallbacks();
   }
 
   applyDataPatches();
 
+  if (typeof route === "function") route();
+  afterRoute();
+
+  window.addEventListener("hashchange", () => setTimeout(afterRoute, 0));
+
   const appRoot = document.getElementById("app");
   if (appRoot) {
-    new MutationObserver(applyRenderedPatches).observe(appRoot, { childList: true, subtree: true });
+    new MutationObserver(mutations => {
+      for (const mutation of mutations) {
+        for (const node of mutation.addedNodes) {
+          if (node.nodeType !== 1) continue;
+          if (node.tagName === "IMG") bindImageFallbacks(node.parentElement || document);
+          else if (node.querySelector?.("img")) bindImageFallbacks(node);
+        }
+      }
+    }).observe(appRoot, { childList: true, subtree: true });
   }
-
-  if (typeof route === "function") route();
-  applyRenderedPatches();
 })();
