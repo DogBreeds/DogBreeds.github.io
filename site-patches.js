@@ -9,7 +9,7 @@
     "west-highland-white-terrier": "A Westie Adult.jpg",
     "whippet": "A whippet in the forests of Sweden.jpg",
     "yorkshire-terrier": "Yorkshireterrierbowie.JPG",
-    "miniature-schnauzer": "Miniature Schnauzer (Salt and Pepper).jpg"
+    "miniature-schnauzer": "Miniature schnauzer blackandsilver.jpg"
   };
 
   const GALLERY_OVERRIDES = {
@@ -46,8 +46,7 @@
     ],
     "miniature-schnauzer": [
       "Silver Schnauzer - Abby.jpg",
-      "Miniature Schnauzer Jordy.jpg",
-      "Miniature schnauzer blackandsilver.jpg"
+      "Miniature Schnauzer Jordy.jpg"
     ]
   };
 
@@ -69,17 +68,12 @@
         {
           label: "Salt & Pepper",
           query: "adult salt pepper Miniature Schnauzer dog",
-          photo: "Miniature Schnauzer salt & pepper.jpg"
+          photo: "Miniature Schnauzer Jordy.jpg"
         },
         {
           label: "Black & Silver",
           query: "adult black silver Miniature Schnauzer dog",
           photo: "Miniature schnauzer blackandsilver.jpg"
-        },
-        {
-          label: "Solid Black",
-          query: "adult black Miniature Schnauzer dog",
-          photo: "Schnauzer nain noir.jpg"
         }
       ];
     }
