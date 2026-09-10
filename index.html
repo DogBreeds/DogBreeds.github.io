@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="match-explanations.css?v=20260825j">
   <link rel="stylesheet" href="care-guides.css?v=20260825l">
   <link rel="stylesheet" href="amazon-direct-products.css?v=20260831c">
-  <link rel="stylesheet" href="account.css?v=20260910a">
+  <link rel="stylesheet" href="account.css?v=20260910c">
 </head>
 <body>
   <header class="site-header">
@@ -22,6 +22,7 @@
       </div>
       <nav class="main-nav" aria-label="Browse dog breeds">
         <button class="nav-button nav-quiz" type="button" data-route="quiz">QUIZ</button>
+        <button class="nav-button nav-history" id="quiz-history-open" type="button" aria-haspopup="dialog">SEE MY PAST RESULTS</button>
         <button class="nav-button nav-all" type="button" id="all-dogs-nav">ALL DOGS</button>
         <div class="nav-group" data-nav-group>
           <button class="nav-button nav-large" type="button" aria-expanded="false" data-dropdown-trigger>LARGE <span aria-hidden="true">▾</span></button>
@@ -103,6 +104,16 @@
     </div>
   </dialog>
 
+  <dialog class="account-dialog history-dialog" id="quiz-history-dialog" aria-label="Past quiz results">
+    <div class="account-dialog-inner">
+      <button class="account-close" id="quiz-history-close" type="button" aria-label="Close past results">&#215;</button>
+      <p class="kicker">Your quiz history</p>
+      <h2>Past results</h2>
+      <p class="account-intro" id="quiz-history-intro">See how your dog matches have changed over time.</p>
+      <div class="history-list" id="quiz-history-list" aria-live="polite"></div>
+    </div>
+  </dialog>
+
   <script src="breeds.js?v=20260824m"></script>
   <script src="extra-breeds.js?v=20260825e"></script>
   <script src="extra-breeds-2.js?v=20260831a"></script>
@@ -124,6 +135,6 @@
   <script src="chesapeake-final.js?v=20260902a"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.min.js"></script>
   <script src="supabase-config.js?v=20260910b"></script>
-  <script src="account.js?v=20260910a"></script>
+  <script src="account.js?v=20260910c"></script>
 </body>
 </html>

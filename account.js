@@ -1,6 +1,7 @@
 (() => {
   const QUIZ_OWNER_KEY = "dogBreedFinder.quizResultsOwner.v1";
   const TABLE = "quiz_results";
+  const HISTORY_TABLE = "quiz_result_history";
   const config = window.DOG_BREED_FINDER_SUPABASE || {};
   const quiz = window.DogBreedFinderQuiz;
   const projectUrl = String(config.url || "").trim().replace(/\/+$/, "");
@@ -21,12 +22,17 @@
   const emailDisplay = document.getElementById("account-email-display");
   const syncStatus = document.getElementById("account-sync-status");
   const logoutButton = document.getElementById("account-logout");
+  const historyButton = document.getElementById("quiz-history-open");
+  const historyDialog = document.getElementById("quiz-history-dialog");
+  const historyCloseButton = document.getElementById("quiz-history-close");
+  const historyList = document.getElementById("quiz-history-list");
 
   let mode = "login";
   let client = null;
   let currentUser = null;
   let syncedUserId = "";
   let authBusy = false;
+  let historyStates = [];
 
   function isConfigured() {
     return /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(projectUrl) &&
@@ -107,12 +113,124 @@
     else dialog.removeAttribute("open");
   }
 
+  function escapeHtml(value) {
+    const characters = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "\"": "&quot;",
+      "'": "&#039;"
+    };
+    return String(value ?? "").replace(/[&<>"']/g, character => characters[character]);
+  }
+
+  function breedName(id) {
+    const breeds = typeof BREEDS === "undefined" ? [] : BREEDS;
+    const breed = breeds.find(item => item.id === id);
+    if (breed) return breed.name;
+    return String(id || "Dog breed")
+      .replaceAll("-", " ")
+      .replace(/\b\w/g, letter => letter.toUpperCase());
+  }
+
+  function formatQuizDate(state) {
+    const date = new Date(Number(state.createdAt));
+    if (Number.isNaN(date.getTime())) return "Saved quiz";
+    return new Intl.DateTimeFormat(undefined, {
+      dateStyle: "medium",
+      timeStyle: "short"
+    }).format(date);
+  }
+
+  function renderHistory(states) {
+    historyStates = states.filter(state => quiz?.isValidState(state));
+    if (!historyStates.length) {
+      historyList.innerHTML = `<div class="history-empty">You do not have any saved quiz results yet. Take the quiz and your results will appear here.</div>`;
+      return;
+    }
+
+    historyList.innerHTML = historyStates.map((state, index) => {
+      const matches = [...state.results]
+        .sort((a, b) => Number(b.score) - Number(a.score))
+        .slice(0, 3);
+      return `
+        <article class="history-card">
+          <div class="history-heading">
+            <strong>${escapeHtml(formatQuizDate(state))}</strong>
+            <span>${state.results.length} matches</span>
+          </div>
+          <ol class="history-matches">
+            ${matches.map((match, matchIndex) => `
+              <li class="history-match">
+                <span>#${matchIndex + 1} ${escapeHtml(breedName(match.id))}</span>
+                <strong>${Math.round(Number(match.score) * 100)}% match</strong>
+              </li>`).join("")}
+          </ol>
+          <button class="secondary history-view" type="button" data-history-index="${index}">VIEW FULL RESULTS</button>
+        </article>`;
+    }).join("");
+  }
+
+  function showHistoryDialog() {
+    if (typeof historyDialog.showModal === "function") historyDialog.showModal();
+    else historyDialog.setAttribute("open", "");
+  }
+
+  function closeHistoryDialog() {
+    if (typeof historyDialog.close === "function") historyDialog.close();
+    else historyDialog.removeAttribute("open");
+  }
+
+  async function loadQuizHistory() {
+    showHistoryDialog();
+    historyStates = [];
+
+    if (!client || !currentUser) {
+      historyList.innerHTML = `
+        <div class="history-empty">
+          Log in to see results saved to your account.
+          <br><button class="primary" type="button" data-history-login>LOG IN</button>
+        </div>`;
+      return;
+    }
+
+    historyList.innerHTML = `<div class="history-loading">Loading your past results…</div>`;
+    const { data, error } = await client
+      .from(HISTORY_TABLE)
+      .select("quiz_state,result_created_at")
+      .eq("user_id", currentUser.id)
+      .order("result_created_at", { ascending: false })
+      .limit(50);
+
+    if (error) {
+      historyList.innerHTML = `<div class="history-empty">Your past results could not load. Please try again.</div>`;
+      return;
+    }
+
+    renderHistory((data || []).map(row => row.quiz_state));
+  }
+
   function friendlyError(error) {
     const raw = error?.message || "Something went wrong. Please try again.";
     if (/invalid login credentials/i.test(raw)) return "The email or password is incorrect.";
     if (/email not confirmed/i.test(raw)) return "Confirm your email before logging in.";
     if (/user already registered/i.test(raw)) return "An account already exists for this email. Log in instead.";
     return raw;
+  }
+
+  async function saveQuizToHistory(state, user = currentUser) {
+    if (!client || !user || !quiz?.isValidState(state)) return false;
+    const { error } = await client
+      .from(HISTORY_TABLE)
+      .upsert({
+        user_id: user.id,
+        result_created_at: Math.trunc(Number(state.createdAt)),
+        quiz_state: state
+      }, {
+        onConflict: "user_id,result_created_at",
+        ignoreDuplicates: true
+      });
+    return !error;
   }
 
   async function saveQuizToCloud(state, user = currentUser) {
@@ -132,8 +250,15 @@
       return false;
     }
 
+    const historySaved = await saveQuizToHistory(state, user);
     setQuizOwner(user.id);
-    setSyncStatus("Your latest quiz result is saved to your account.");
+    setSyncStatus(
+      historySaved
+        ? "Your quiz result is saved to your account."
+        : "Your latest result is saved, but your past-results list could not be updated.",
+      !historySaved
+    );
+    if (historyDialog.open) loadQuizHistory();
     return true;
   }
 
@@ -172,6 +297,7 @@
 
     if (remoteState && remoteTime > localTime) {
       quiz.replaceSavedResults(remoteState);
+      await saveQuizToHistory(remoteState, user);
       setQuizOwner(user.id);
       setSyncStatus("Your saved quiz result has been restored.");
       return;
@@ -270,6 +396,29 @@
   createTab.addEventListener("click", () => setMode("create"));
   form.addEventListener("submit", submitAccount);
   logoutButton.addEventListener("click", logOut);
+  historyButton.addEventListener("click", loadQuizHistory);
+  historyCloseButton.addEventListener("click", closeHistoryDialog);
+  historyDialog.addEventListener("click", event => {
+    if (event.target === historyDialog) closeHistoryDialog();
+  });
+  historyList.addEventListener("click", event => {
+    if (event.target.closest("[data-history-login]")) {
+      closeHistoryDialog();
+      showDialog();
+      return;
+    }
+
+    const viewButton = event.target.closest("[data-history-index]");
+    if (!viewButton) return;
+    const state = historyStates[Number(viewButton.dataset.historyIndex)];
+    if (!quiz?.isValidState(state)) return;
+    closeHistoryDialog();
+    location.hash = "quiz";
+    setTimeout(() => {
+      quiz.replaceSavedResults(state);
+      document.getElementById("home-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+  });
 
   window.addEventListener("dogbreedfinder:quiz-saved", event => {
     if (currentUser) saveQuizToCloud(event.detail?.state, currentUser);
