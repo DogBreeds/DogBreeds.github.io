@@ -3,6 +3,8 @@
   const TABLE = "quiz_results";
   const config = window.DOG_BREED_FINDER_SUPABASE || {};
   const quiz = window.DogBreedFinderQuiz;
+  const projectUrl = String(config.url || "").trim().replace(/\/+$/, "");
+  const publishableKey = String(config.publishableKey || "").trim();
 
   const dialog = document.getElementById("account-dialog");
   const openButton = document.getElementById("account-open");
@@ -27,8 +29,23 @@
   let authBusy = false;
 
   function isConfigured() {
-    return /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(config.url || "") &&
-      /^(sb_publishable_|eyJ)/.test(config.publishableKey || "");
+    return /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(projectUrl) &&
+      /^sb_publishable_/.test(publishableKey);
+  }
+
+  function getQuizOwner() {
+    try { return localStorage.getItem(QUIZ_OWNER_KEY) || ""; }
+    catch { return ""; }
+  }
+
+  function setQuizOwner(userId) {
+    try { localStorage.setItem(QUIZ_OWNER_KEY, userId); }
+    catch {}
+  }
+
+  function clearQuizOwner() {
+    try { localStorage.removeItem(QUIZ_OWNER_KEY); }
+    catch {}
   }
 
   function setMessage(text, isError = false) {
@@ -115,7 +132,7 @@
       return false;
     }
 
-    localStorage.setItem(QUIZ_OWNER_KEY, user.id);
+    setQuizOwner(user.id);
     setSyncStatus("Your latest quiz result is saved to your account.");
     return true;
   }
@@ -124,10 +141,10 @@
     if (!client || !user || !quiz) return;
     setSyncStatus("Checking your saved quiz result…");
 
-    const localOwner = localStorage.getItem(QUIZ_OWNER_KEY);
+    const localOwner = getQuizOwner();
     if (localOwner && localOwner !== user.id) {
       quiz.clearSavedResults();
-      localStorage.removeItem(QUIZ_OWNER_KEY);
+      clearQuizOwner();
     }
 
     const { data, error } = await client
@@ -145,7 +162,7 @@
     const remoteState = quiz.isValidState(data?.quiz_state) ? data.quiz_state : null;
 
     if (!localState && !remoteState) {
-      localStorage.setItem(QUIZ_OWNER_KEY, user.id);
+      setQuizOwner(user.id);
       setSyncStatus("Complete the quiz and your result will be saved here.");
       return;
     }
@@ -155,7 +172,7 @@
 
     if (remoteState && remoteTime > localTime) {
       quiz.replaceSavedResults(remoteState);
-      localStorage.setItem(QUIZ_OWNER_KEY, user.id);
+      setQuizOwner(user.id);
       setSyncStatus("Your saved quiz result has been restored.");
       return;
     }
@@ -168,9 +185,9 @@
     setSignedInView(user);
 
     if (!user) {
-      if (localStorage.getItem(QUIZ_OWNER_KEY)) {
+      if (getQuizOwner()) {
         quiz?.clearSavedResults();
-        localStorage.removeItem(QUIZ_OWNER_KEY);
+        clearQuizOwner();
         if (!location.hash || location.hash === "#quiz") setTimeout(() => location.reload(), 0);
       }
       syncedUserId = "";
@@ -237,9 +254,9 @@
       return;
     }
 
-    if (localStorage.getItem(QUIZ_OWNER_KEY) === userId) {
+    if (getQuizOwner() === userId) {
       quiz?.clearSavedResults();
-      localStorage.removeItem(QUIZ_OWNER_KEY);
+      clearQuizOwner();
     }
     location.reload();
   }
@@ -272,7 +289,7 @@
     return;
   }
 
-  client = window.supabase.createClient(config.url, config.publishableKey, {
+  client = window.supabase.createClient(projectUrl, publishableKey, {
     auth: {
       flowType: "pkce",
       persistSession: true,
