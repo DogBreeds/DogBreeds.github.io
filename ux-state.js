@@ -65,6 +65,44 @@
     return Array.isArray(state?.results) && state.results.length ? state : null;
   }
 
+  function isValidQuizState(state) {
+    return Boolean(
+      state &&
+      typeof state === "object" &&
+      state.answers &&
+      typeof state.answers === "object" &&
+      Number.isFinite(Number(state.createdAt)) &&
+      Array.isArray(state.results) &&
+      state.results.length &&
+      state.results.every(item =>
+        item &&
+        typeof item.id === "string" &&
+        item.id.length > 0 &&
+        Number.isFinite(Number(item.score))
+      )
+    );
+  }
+
+  function saveCompletedQuiz(state) {
+    storage.set(QUIZ_KEY, state);
+    window.dispatchEvent(new CustomEvent("dogbreedfinder:quiz-saved", {
+      detail: { state }
+    }));
+  }
+
+  function replaceSavedQuiz(state) {
+    if (!isValidQuizState(state)) return false;
+    storage.set(QUIZ_KEY, state);
+    if (normalizeHash() === "#quiz" && document.getElementById("home-results")) {
+      renderQuizRanking(state.results);
+    }
+    return true;
+  }
+
+  function clearSavedQuiz() {
+    storage.remove(QUIZ_KEY);
+  }
+
   function clearQuizInputs(form) {
     if (!form) return;
     form.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => { input.checked = false; });
@@ -127,7 +165,7 @@
           createdAt: Date.now(),
           results: scored.map(item => ({ id: item.breed.id, score: item.score }))
         };
-        storage.set(QUIZ_KEY, persisted);
+        saveCompletedQuiz(persisted);
         renderQuizRanking(persisted.results, { scroll: true });
       });
 
@@ -342,6 +380,14 @@
   installPersistentSizeFilters();
   installSmartBack();
   installAllDogsRoute();
+
+  window.DogBreedFinderQuiz = Object.freeze({
+    storageKey: QUIZ_KEY,
+    getSavedResults: savedQuizResults,
+    replaceSavedResults: replaceSavedQuiz,
+    clearSavedResults: clearSavedQuiz,
+    isValidState: isValidQuizState
+  });
 
   if (location.hash !== "#all") route();
 })();
