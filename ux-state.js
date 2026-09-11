@@ -294,10 +294,11 @@
 
     const update = () => {
       const q = query.trim().toLowerCase();
-      const breeds = BREEDS
-        .filter(breed => !q || breed.name.toLowerCase().includes(q))
-        .filter(breed => matchesFilter(breed, groups))
-        .sort((a, b) => a.name.localeCompare(b.name));
+      const breeds = sortBreedsLargeToSmall(
+        BREEDS
+          .filter(breed => !q || breed.name.toLowerCase().includes(q))
+          .filter(breed => matchesFilter(breed, groups))
+      );
       const target = document.getElementById("all-dogs-results");
       target.innerHTML = `
         <div class="results-header"><h2>${q || Object.values(groups).some(v => v?.length) ? "Matching breeds" : "All breeds"}</h2><div class="count">${breeds.length} of ${BREEDS.length}</div></div>
