@@ -173,8 +173,11 @@
         setTimeout(() => {
           clearQuizInputs(form);
           showStep(0, true);
-          const saved = savedQuizResults();
-          if (saved) renderQuizRanking(saved.results);
+          renderResults(
+            [...BREEDS].sort((a, b) => a.name.localeCompare(b.name)),
+            "home-results",
+            "All dogs"
+          );
         }, 0);
       });
 
@@ -191,8 +194,6 @@
       takeQuiz?.addEventListener("click", () => {
         const form = document.getElementById("quiz-form");
         form?.reset();
-        const savedNow = savedQuizResults();
-        if (savedNow) renderQuizRanking(savedNow.results);
       });
     };
   }
