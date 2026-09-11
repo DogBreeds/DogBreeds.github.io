@@ -1,0 +1,2684 @@
+{
+  "reviewed": "2026-09-11",
+  "estimateYear": 2026,
+  "years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "sources": {
+    "historical": {
+      "title": "FCI international registration survey, published 2013",
+      "url": "https://newsletter15.dogdotcom.be/en/skk.aspx",
+      "transcription": "https://en.wikipedia.org/wiki/List_of_most_popular_dog_breeds#FCI_Worldwide_Figures_2013",
+      "note": "Historical registrations from reporting countries, not all living dogs. The original newsletter could not be retrieved; values were checked against its reproduced table. Underlying country reporting years vary."
+    },
+    "AU": {
+      "title": "Dogs Australia breed registration statistics",
+      "urls": [
+        "https://dogsaustralia.org.au/media/10160/rego-stats-list_2010-2017.pdf",
+        "https://dogsaustralia.org.au/media/10430/rego-stats-list_2018-2025.pdf"
+      ]
+    },
+    "UK": {
+      "title": "Royal Kennel Club annual breed registrations, 2016–2025",
+      "urls": [
+        "https://www.royalkennelclub.com/media/0alpujzy/10-yearly-breeds-stats-hound.pdf",
+        "https://www.royalkennelclub.com/media/ugoht4iy/10-yearly-breeds-stats-working.pdf",
+        "https://www.royalkennelclub.com/media/4duje03p/10-yearly-breeds-stats-terrier.pdf",
+        "https://www.royalkennelclub.com/media/jwnpo5lt/10-yearly-breeds-stats-gundog.pdf",
+        "https://www.royalkennelclub.com/media/qiwna0nw/10-yearly-breeds-stats-pastoral.pdf",
+        "https://www.royalkennelclub.com/media/g05csh5p/10-yearly-breeds-stats-utility.pdf",
+        "https://www.royalkennelclub.com/media/vutlpvk0/10-yearly-breeds-stats-toy.pdf"
+      ],
+      "note": "Use the year column headers. The Utility PDF title incorrectly says 2015–2024; its columns say 2016–2025."
+    },
+    "JP": {
+      "title": "Japan Kennel Club breed registrations, 2025",
+      "url": "https://www.jkc.or.jp/registr-statistics/",
+      "note": "Annual JKC registrations only. Missing breeds are omitted, not treated as zero. Other Japanese registries are not included. Used only to inform relative breed prevalence where no historical international breed count is available."
+    }
+  },
+  "assumptions": {
+    "coverageMultiplier": 8,
+    "coverageLow": 3,
+    "coverageHigh": 20,
+    "imputationUncertainty": 2,
+    "note": "Scenario assumptions, not measured registration coverage or statistical confidence limits. The factor expands the historical reporting registries to missing countries and unregistered purebred dogs. Breed mixes are excluded; no global all-dog total is allocated across this catalog."
+  },
+  "historicalRegistrations": {
+    "labrador-retriever": 191988,
+    "german-shepherd-dog": 129186,
+    "chihuahua": 107114,
+    "golden-retriever": 92994,
+    "yorkshire-terrier": 92438,
+    "dachshund": 81516,
+    "beagle": 53938,
+    "boxer": 52983,
+    "miniature-schnauzer": 45263,
+    "english-cocker-spaniel": 40174,
+    "cavalier-king-charles-spaniel": 39670,
+    "rottweiler": 31447,
+    "english-setter": 29771,
+    "maltese": 28909,
+    "english-springer-spaniel": 28050,
+    "german-shorthaired-pointer": 23855,
+    "border-collie": 23262,
+    "shetland-sheepdog": 22805,
+    "doberman-pinscher": 20941,
+    "west-highland-white-terrier": 20904,
+    "bernese-mountain-dog": 20423,
+    "great-dane": 20001,
+    "brittany": 19828
+  },
+  "historicalGroups": {
+    "poodle": 118653,
+    "german-spitz": 40530
+  },
+  "groupMembers": {
+    "standard-poodle": "poodle",
+    "pomeranian": "german-spitz",
+    "keeshond": "german-spitz"
+  },
+  "japan2025": {
+    "labrador-retriever": 3410,
+    "golden-retriever": 7472,
+    "german-shepherd-dog": 369,
+    "great-dane": 122,
+    "bernese-mountain-dog": 1219,
+    "standard-poodle": 2521,
+    "border-collie": 4640,
+    "australian-shepherd": 170,
+    "beagle": 1973,
+    "english-cocker-spaniel": 357,
+    "shiba-inu": 3598,
+    "siberian-husky": 2726,
+    "dachshund": 30615,
+    "cavalier-king-charles-spaniel": 3471,
+    "miniature-schnauzer": 15268,
+    "pomeranian": 22853,
+    "pembroke-welsh-corgi": 4665,
+    "newfoundland": 202,
+    "doberman-pinscher": 427,
+    "boxer": 80,
+    "rottweiler": 244,
+    "greyhound": 1,
+    "australian-cattle-dog": 7,
+    "english-springer-spaniel": 34,
+    "brittany": 25,
+    "basenji": 68,
+    "whippet": 303,
+    "havanese": 59,
+    "bichon-frise": 8037,
+    "papillon": 3419,
+    "jack-russell-terrier": 3230,
+    "maltese": 9960,
+    "samoyed": 817,
+    "dalmatian": 186,
+    "irish-setter": 71,
+    "weimaraner": 255,
+    "rhodesian-ridgeback": 1,
+    "alaskan-malamute": 202,
+    "vizsla": 7,
+    "portuguese-water-dog": 56,
+    "shetland-sheepdog": 2628,
+    "west-highland-white-terrier": 416,
+    "yorkshire-terrier": 8086,
+    "chihuahua": 46221,
+    "akita": 263,
+    "great-pyrenees": 400,
+    "german-shorthaired-pointer": 4,
+    "english-setter": 22,
+    "old-english-sheepdog": 258,
+    "american-cocker-spaniel": 2322,
+    "cairn-terrier": 82,
+    "italian-greyhound": 3234,
+    "miniature-pinscher": 2981,
+    "belgian-malinois": 50,
+    "flat-coated-retriever": 257,
+    "nova-scotia-duck-tolling-retriever": 24,
+    "giant-schnauzer": 22,
+    "keeshond": 14,
+    "border-terrier": 11,
+    "scottish-terrier": 150,
+    "welsh-terrier": 82,
+    "rough-collie": 120
+  },
+  "series": {
+    "labrador-retriever": {
+      "AU": {
+        "labels": [
+          "Labrador Retriever"
+        ],
+        "counts": [
+          5173,
+          5330,
+          5643,
+          5239,
+          5722,
+          6479,
+          5549,
+          4223,
+          3527,
+          3672
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Retriever (Labrador)"
+        ],
+        "counts": [
+          33856,
+          35068,
+          36526,
+          35347,
+          39905,
+          61559,
+          44311,
+          38074,
+          34141,
+          29919
+        ]
+      }
+    },
+    "golden-retriever": {
+      "AU": {
+        "labels": [
+          "Golden Retriever"
+        ],
+        "counts": [
+          2955,
+          3150,
+          3028,
+          3199,
+          3836,
+          4422,
+          4107,
+          3706,
+          3558,
+          3776
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Retriever (Golden)"
+        ],
+        "counts": [
+          7232,
+          7846,
+          7794,
+          8422,
+          8653,
+          11808,
+          11075,
+          10447,
+          10201,
+          9976
+        ]
+      }
+    },
+    "german-shepherd-dog": {
+      "AU": {
+        "labels": [
+          "German Shepherd Dog",
+          "German Shepherd Dog (LSC)"
+        ],
+        "counts": [
+          4084,
+          4002,
+          3673,
+          3477,
+          3961,
+          4565,
+          3504,
+          2863,
+          2309,
+          2147
+        ]
+      },
+      "UK": {
+        "labels": [
+          "German Shepherd Dog"
+        ],
+        "counts": [
+          7751,
+          7479,
+          7299,
+          6837,
+          7067,
+          8568,
+          7211,
+          5876,
+          4817,
+          4278
+        ]
+      }
+    },
+    "great-dane": {
+      "AU": {
+        "labels": [
+          "Great Dane"
+        ],
+        "counts": [
+          692,
+          617,
+          597,
+          551,
+          590,
+          544,
+          475,
+          323,
+          367,
+          299
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Great Dane"
+        ],
+        "counts": [
+          909,
+          903,
+          1035,
+          855,
+          772,
+          1203,
+          865,
+          661,
+          678,
+          519
+        ]
+      }
+    },
+    "bernese-mountain-dog": {
+      "AU": {
+        "labels": [
+          "Bernese Mountain Dog"
+        ],
+        "counts": [
+          397,
+          481,
+          416,
+          575,
+          476,
+          357,
+          426,
+          426,
+          401,
+          291
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Bernese Mountain Dog"
+        ],
+        "counts": [
+          654,
+          501,
+          574,
+          518,
+          518,
+          591,
+          569,
+          706,
+          623,
+          615
+        ]
+      }
+    },
+    "standard-poodle": {
+      "AU": {
+        "labels": [
+          "Poodle (Standard)"
+        ],
+        "counts": [
+          394,
+          406,
+          423,
+          344,
+          462,
+          489,
+          541,
+          429,
+          232,
+          336
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Poodle (Standard)"
+        ],
+        "counts": [
+          886,
+          1004,
+          1097,
+          954,
+          1001,
+          1443,
+          1201,
+          950,
+          663,
+          700
+        ]
+      }
+    },
+    "border-collie": {
+      "AU": {
+        "labels": [
+          "Border Collie"
+        ],
+        "counts": [
+          2973,
+          3037,
+          2458,
+          2855,
+          2825,
+          3108,
+          2999,
+          2230,
+          1955,
+          1975
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Border Collie"
+        ],
+        "counts": [
+          2095,
+          1992,
+          2054,
+          2087,
+          1718,
+          1679,
+          2051,
+          1736,
+          1463,
+          1292
+        ]
+      }
+    },
+    "australian-shepherd": {
+      "AU": {
+        "labels": [
+          "Australian Shepherd"
+        ],
+        "counts": [
+          832,
+          833,
+          1132,
+          1161,
+          1276,
+          1393,
+          1572,
+          1211,
+          1353,
+          1199
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Australian Shepherd"
+        ],
+        "counts": [
+          181,
+          131,
+          189,
+          198,
+          255,
+          264,
+          328,
+          310,
+          356,
+          364
+        ]
+      }
+    },
+    "beagle": {
+      "AU": {
+        "labels": [
+          "Beagle"
+        ],
+        "counts": [
+          594,
+          613,
+          600,
+          535,
+          630,
+          564,
+          565,
+          366,
+          366,
+          274
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Beagle"
+        ],
+        "counts": [
+          2298,
+          2309,
+          2094,
+          2177,
+          1945,
+          2491,
+          1581,
+          1265,
+          1170,
+          1044
+        ]
+      }
+    },
+    "english-cocker-spaniel": {
+      "AU": {
+        "labels": [
+          "Cocker Spaniel"
+        ],
+        "counts": [
+          1558,
+          1503,
+          1439,
+          1520,
+          1649,
+          1727,
+          1931,
+          1724,
+          1597,
+          1698
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Spaniel (Cocker)"
+        ],
+        "counts": [
+          21854,
+          23317,
+          23927,
+          21663,
+          25565,
+          38910,
+          29491,
+          26239,
+          23177,
+          21618
+        ]
+      }
+    },
+    "shiba-inu": {
+      "AU": {
+        "labels": [
+          "Shiba Inu"
+        ],
+        "counts": [
+          131,
+          184,
+          139,
+          158,
+          173,
+          181,
+          240,
+          258,
+          232,
+          258
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Japanese Shiba Inu"
+        ],
+        "counts": [
+          314,
+          326,
+          346,
+          330,
+          434,
+          497,
+          606,
+          550,
+          449,
+          395
+        ]
+      }
+    },
+    "siberian-husky": {
+      "AU": {
+        "labels": [
+          "Siberian Husky"
+        ],
+        "counts": [
+          556,
+          553,
+          434,
+          400,
+          440,
+          502,
+          374,
+          235,
+          268,
+          236
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Siberian Husky"
+        ],
+        "counts": [
+          747,
+          737,
+          634,
+          397,
+          391,
+          480,
+          336,
+          238,
+          310,
+          197
+        ]
+      }
+    },
+    "dachshund": {
+      "AU": {
+        "labels": [
+          "Dachshund (Long)",
+          "Dachshund (Min. Long)",
+          "Dachshund (Min. Smooth)",
+          "Dachshund (Min. Wire)",
+          "Dachshund (Smooth)",
+          "Dachshund (Wire)",
+          "Dachshund Rabbit (Long)",
+          "Dachshund Rabbit (Smooth)",
+          "Dachshund Rabbit (Wire)"
+        ],
+        "counts": [
+          1410,
+          1487,
+          1453,
+          1474,
+          1423,
+          1630,
+          1411,
+          1309,
+          1050,
+          989
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Dachshund (Long Haired)",
+          "Dachshund (Miniature Long Haired)",
+          "Dachshund (Miniature Smooth Haired)",
+          "Dachshund (Miniature Wire Haired)",
+          "Dachshund (Smooth Haired)",
+          "Dachshund (Wire Haired)"
+        ],
+        "counts": [
+          7165,
+          8907,
+          10377,
+          11942,
+          14120,
+          20379,
+          21002,
+          20341,
+          17401,
+          14658
+        ]
+      }
+    },
+    "cavalier-king-charles-spaniel": {
+      "AU": {
+        "labels": [
+          "Cavalier King Charles Spaniel"
+        ],
+        "counts": [
+          2555,
+          2491,
+          2417,
+          2170,
+          2360,
+          2551,
+          2452,
+          1892,
+          1721,
+          1749
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Cavalier King Charles Spaniel"
+        ],
+        "counts": [
+          4114,
+          3588,
+          3701,
+          3252,
+          2979,
+          3772,
+          3478,
+          3528,
+          3132,
+          3224
+        ]
+      }
+    },
+    "miniature-schnauzer": {
+      "AU": {
+        "labels": [
+          "Schnauzer (Miniature)"
+        ],
+        "counts": [
+          1765,
+          1678,
+          1554,
+          1594,
+          1638,
+          1807,
+          1742,
+          1420,
+          1123,
+          1093
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Miniature Schnauzer"
+        ],
+        "counts": [
+          5437,
+          5611,
+          5535,
+          4982,
+          4728,
+          5849,
+          4788,
+          3903,
+          3695,
+          2956
+        ]
+      }
+    },
+    "pomeranian": {
+      "AU": {
+        "labels": [
+          "Pomeranian"
+        ],
+        "counts": [
+          471,
+          490,
+          465,
+          504,
+          553,
+          498,
+          466,
+          285,
+          342,
+          260
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Pomeranian"
+        ],
+        "counts": [
+          1021,
+          1170,
+          1366,
+          1538,
+          1754,
+          2632,
+          2582,
+          2221,
+          1832,
+          1541
+        ]
+      }
+    },
+    "pembroke-welsh-corgi": {
+      "AU": {
+        "labels": [
+          "Welsh Corgi (Pembroke)"
+        ],
+        "counts": [
+          408,
+          493,
+          435,
+          578,
+          659,
+          828,
+          849,
+          848,
+          713,
+          725
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Welsh Corgi (Pembroke)"
+        ],
+        "counts": [
+          393,
+          456,
+          576,
+          795,
+          887,
+          1223,
+          899,
+          940,
+          760,
+          758
+        ]
+      }
+    },
+    "newfoundland": {
+      "AU": {
+        "labels": [
+          "Newfoundland"
+        ],
+        "counts": [
+          184,
+          174,
+          190,
+          180,
+          165,
+          173,
+          127,
+          130,
+          126,
+          74
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Newfoundland"
+        ],
+        "counts": [
+          829,
+          740,
+          756,
+          566,
+          577,
+          603,
+          531,
+          405,
+          422,
+          301
+        ]
+      }
+    },
+    "doberman-pinscher": {
+      "AU": {
+        "labels": [
+          "Dobermann"
+        ],
+        "counts": [
+          573,
+          686,
+          622,
+          502,
+          582,
+          696,
+          538,
+          504,
+          415,
+          327
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Dobermann"
+        ],
+        "counts": [
+          1288,
+          1462,
+          1344,
+          1480,
+          1440,
+          1906,
+          1806,
+          1295,
+          984,
+          1037
+        ]
+      }
+    },
+    "boxer": {
+      "AU": {
+        "labels": [
+          "Boxer"
+        ],
+        "counts": [
+          990,
+          1048,
+          1081,
+          938,
+          1001,
+          1057,
+          1054,
+          793,
+          589,
+          658
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Boxer"
+        ],
+        "counts": [
+          3664,
+          3371,
+          3407,
+          3329,
+          3202,
+          4649,
+          3214,
+          2650,
+          2427,
+          1959
+        ]
+      }
+    },
+    "rottweiler": {
+      "AU": {
+        "labels": [
+          "Rottweiler"
+        ],
+        "counts": [
+          1722,
+          1712,
+          1767,
+          1780,
+          1852,
+          2182,
+          1647,
+          1373,
+          1260,
+          1164
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Rottweiler"
+        ],
+        "counts": [
+          1494,
+          1689,
+          1666,
+          1935,
+          2050,
+          2874,
+          2650,
+          2639,
+          2209,
+          1958
+        ]
+      }
+    },
+    "greyhound": {
+      "AU": {
+        "labels": [
+          "Greyhound"
+        ],
+        "counts": [
+          16,
+          8,
+          32,
+          37,
+          20,
+          70,
+          14,
+          4,
+          28,
+          31
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Greyhound"
+        ],
+        "counts": [
+          41,
+          21,
+          32,
+          37,
+          16,
+          10,
+          22,
+          35,
+          20,
+          10
+        ]
+      }
+    },
+    "australian-cattle-dog": {
+      "AU": {
+        "labels": [
+          "Australian Cattle Dog"
+        ],
+        "counts": [
+          1062,
+          988,
+          998,
+          899,
+          1006,
+          996,
+          749,
+          678,
+          397,
+          504
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Australian Cattle Dog"
+        ],
+        "counts": [
+          46,
+          46,
+          27,
+          52,
+          46,
+          82,
+          54,
+          50,
+          42,
+          45
+        ]
+      }
+    },
+    "english-springer-spaniel": {
+      "AU": {
+        "labels": [
+          "English Springer Spaniel"
+        ],
+        "counts": [
+          475,
+          438,
+          483,
+          377,
+          518,
+          551,
+          451,
+          340,
+          348,
+          292
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Spaniel (English Springer)"
+        ],
+        "counts": [
+          9827,
+          9958,
+          10152,
+          8638,
+          9123,
+          14579,
+          9603,
+          7214,
+          6527,
+          5845
+        ]
+      }
+    },
+    "brittany": {
+      "AU": {
+        "labels": [
+          "Brittany"
+        ],
+        "counts": [
+          147,
+          144,
+          170,
+          164,
+          197,
+          217,
+          236,
+          138,
+          134,
+          120
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Brittany"
+        ],
+        "counts": [
+          114,
+          73,
+          67,
+          80,
+          65,
+          123,
+          61,
+          106,
+          22,
+          35
+        ]
+      }
+    },
+    "basenji": {
+      "AU": {
+        "labels": [
+          "Basenji"
+        ],
+        "counts": [
+          75,
+          124,
+          90,
+          95,
+          138,
+          133,
+          137,
+          86,
+          91,
+          79
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Basenji"
+        ],
+        "counts": [
+          32,
+          59,
+          35,
+          70,
+          84,
+          83,
+          102,
+          73,
+          78,
+          64
+        ]
+      }
+    },
+    "whippet": {
+      "AU": {
+        "labels": [
+          "Whippet"
+        ],
+        "counts": [
+          755,
+          749,
+          754,
+          687,
+          904,
+          868,
+          814,
+          652,
+          738,
+          517
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Whippet"
+        ],
+        "counts": [
+          3218,
+          3352,
+          3475,
+          3146,
+          4061,
+          5760,
+          4342,
+          3704,
+          3643,
+          3218
+        ]
+      }
+    },
+    "havanese": {
+      "AU": {
+        "labels": [
+          "Havanese"
+        ],
+        "counts": [
+          415,
+          374,
+          397,
+          457,
+          494,
+          535,
+          467,
+          366,
+          330,
+          331
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Havanese"
+        ],
+        "counts": [
+          542,
+          475,
+          529,
+          447,
+          466,
+          498,
+          471,
+          353,
+          356,
+          294
+        ]
+      }
+    },
+    "bichon-frise": {
+      "AU": {
+        "labels": [
+          "Bichon Frise"
+        ],
+        "counts": [
+          465,
+          420,
+          376,
+          363,
+          301,
+          493,
+          259,
+          156,
+          167,
+          245
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Bichon Frise"
+        ],
+        "counts": [
+          875,
+          769,
+          561,
+          468,
+          400,
+          482,
+          368,
+          344,
+          308,
+          217
+        ]
+      }
+    },
+    "papillon": {
+      "AU": {
+        "labels": [
+          "Papillon"
+        ],
+        "counts": [
+          420,
+          402,
+          372,
+          341,
+          314,
+          322,
+          315,
+          302,
+          260,
+          238
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Papillon"
+        ],
+        "counts": [
+          452,
+          410,
+          352,
+          295,
+          285,
+          348,
+          254,
+          246,
+          248,
+          191
+        ]
+      }
+    },
+    "jack-russell-terrier": {
+      "AU": {
+        "labels": [
+          "Jack Russell Terrier"
+        ],
+        "counts": [
+          810,
+          837,
+          787,
+          831,
+          849,
+          874,
+          884,
+          865,
+          668,
+          774
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Jack Russell Terrier"
+        ],
+        "counts": [
+          150,
+          136,
+          205,
+          266,
+          391,
+          355,
+          403,
+          458,
+          318,
+          503
+        ]
+      }
+    },
+    "maltese": {
+      "AU": {
+        "labels": [
+          "Maltese"
+        ],
+        "counts": [
+          185,
+          243,
+          215,
+          194,
+          203,
+          232,
+          184,
+          174,
+          140,
+          154
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Maltese"
+        ],
+        "counts": [
+          1094,
+          1139,
+          1062,
+          911,
+          885,
+          1050,
+          892,
+          748,
+          724,
+          490
+        ]
+      }
+    },
+    "samoyed": {
+      "AU": {
+        "labels": [
+          "Samoyed"
+        ],
+        "counts": [
+          421,
+          296,
+          395,
+          324,
+          440,
+          364,
+          331,
+          339,
+          301,
+          191
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Samoyed"
+        ],
+        "counts": [
+          230,
+          222,
+          226,
+          266,
+          219,
+          302,
+          380,
+          307,
+          347,
+          302
+        ]
+      }
+    },
+    "dalmatian": {
+      "AU": {
+        "labels": [
+          "Dalmatian"
+        ],
+        "counts": [
+          611,
+          640,
+          707,
+          605,
+          658,
+          975,
+          716,
+          520,
+          459,
+          335
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Dalmatian"
+        ],
+        "counts": [
+          1094,
+          1035,
+          1007,
+          1042,
+          1126,
+          1662,
+          1042,
+          1043,
+          983,
+          743
+        ]
+      }
+    },
+    "irish-setter": {
+      "AU": {
+        "labels": [
+          "Irish Setter"
+        ],
+        "counts": [
+          140,
+          183,
+          140,
+          158,
+          182,
+          211,
+          180,
+          169,
+          155,
+          122
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Irish Setter"
+        ],
+        "counts": [
+          775,
+          861,
+          724,
+          678,
+          645,
+          935,
+          825,
+          684,
+          647,
+          480
+        ]
+      }
+    },
+    "weimaraner": {
+      "AU": {
+        "labels": [
+          "Weimaraner",
+          "Weimaraner (Longhair)"
+        ],
+        "counts": [
+          393,
+          479,
+          542,
+          430,
+          385,
+          535,
+          451,
+          345,
+          283,
+          277
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Weimaraner"
+        ],
+        "counts": [
+          1138,
+          1174,
+          1265,
+          1095,
+          1307,
+          1713,
+          1215,
+          1016,
+          629,
+          546
+        ]
+      }
+    },
+    "rhodesian-ridgeback": {
+      "AU": {
+        "labels": [
+          "Rhodesian Ridgeback"
+        ],
+        "counts": [
+          623,
+          723,
+          791,
+          654,
+          818,
+          889,
+          796,
+          477,
+          527,
+          541
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Rhodesian Ridgeback"
+        ],
+        "counts": [
+          946,
+          995,
+          1223,
+          1178,
+          1250,
+          1453,
+          1386,
+          1077,
+          700,
+          699
+        ]
+      }
+    },
+    "alaskan-malamute": {
+      "AU": {
+        "labels": [
+          "Alaskan Malamute"
+        ],
+        "counts": [
+          207,
+          166,
+          188,
+          169,
+          183,
+          265,
+          162,
+          151,
+          127,
+          111
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Alaskan Malamute"
+        ],
+        "counts": [
+          489,
+          432,
+          300,
+          264,
+          261,
+          323,
+          265,
+          231,
+          152,
+          101
+        ]
+      }
+    },
+    "vizsla": {
+      "AU": {
+        "labels": [
+          "Hungarian Vizsla"
+        ],
+        "counts": [
+          674,
+          597,
+          594,
+          645,
+          677,
+          816,
+          816,
+          593,
+          422,
+          610
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Hungarian Vizsla"
+        ],
+        "counts": [
+          2333,
+          2756,
+          2802,
+          2771,
+          2810,
+          4313,
+          3110,
+          2534,
+          1903,
+          1636
+        ]
+      }
+    },
+    "portuguese-water-dog": {
+      "AU": {
+        "labels": [
+          "Portugese Water Dog"
+        ],
+        "counts": [
+          134,
+          64,
+          94,
+          79,
+          106,
+          112,
+          81,
+          48,
+          51,
+          42
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Portuguese Water Dog"
+        ],
+        "counts": [
+          236,
+          262,
+          233,
+          220,
+          312,
+          235,
+          285,
+          122,
+          107,
+          181
+        ]
+      }
+    },
+    "shetland-sheepdog": {
+      "AU": {
+        "labels": [
+          "Shetland Sheepdog"
+        ],
+        "counts": [
+          623,
+          624,
+          561,
+          566,
+          566,
+          609,
+          502,
+          419,
+          331,
+          304
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Shetland Sheepdog"
+        ],
+        "counts": [
+          875,
+          876,
+          794,
+          701,
+          640,
+          768,
+          649,
+          682,
+          529,
+          562
+        ]
+      }
+    },
+    "west-highland-white-terrier": {
+      "AU": {
+        "labels": [
+          "West Highland White Terrier"
+        ],
+        "counts": [
+          918,
+          849,
+          935,
+          979,
+          934,
+          1064,
+          868,
+          792,
+          633,
+          619
+        ]
+      },
+      "UK": {
+        "labels": [
+          "West Highland White Terrier"
+        ],
+        "counts": [
+          2414,
+          2143,
+          1958,
+          1556,
+          1460,
+          1445,
+          1403,
+          1183,
+          1087,
+          1083
+        ]
+      }
+    },
+    "yorkshire-terrier": {
+      "AU": {
+        "labels": [
+          "Yorkshire Terrier"
+        ],
+        "counts": [
+          227,
+          208,
+          211,
+          225,
+          206,
+          231,
+          188,
+          193,
+          185,
+          156
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Yorkshire Terrier"
+        ],
+        "counts": [
+          1062,
+          876,
+          840,
+          644,
+          609,
+          631,
+          495,
+          563,
+          468,
+          385
+        ]
+      }
+    },
+    "chihuahua": {
+      "AU": {
+        "labels": [
+          "Chihuahua (Long)",
+          "Chihuahua (Smooth)"
+        ],
+        "counts": [
+          1291,
+          1353,
+          1251,
+          1241,
+          1202,
+          1401,
+          1335,
+          1263,
+          1041,
+          988
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Chihuahua (Long Coat)",
+          "Chihuahua (Smooth Coat)"
+        ],
+        "counts": [
+          5240,
+          4779,
+          4066,
+          3025,
+          2520,
+          2992,
+          2454,
+          1879,
+          1823,
+          1692
+        ]
+      }
+    },
+    "akita": {
+      "AU": {
+        "labels": [
+          "Akita",
+          "Akita (Japanese)"
+        ],
+        "counts": [
+          213,
+          182,
+          155,
+          176,
+          164,
+          144,
+          136,
+          149,
+          162,
+          88
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Akita",
+          "Japanese Akita Inu"
+        ],
+        "counts": [
+          450,
+          368,
+          360,
+          281,
+          218,
+          316,
+          325,
+          312,
+          192,
+          226
+        ]
+      }
+    },
+    "great-pyrenees": {
+      "AU": {
+        "labels": [
+          "Pyrenean Mountain Dog"
+        ],
+        "counts": [
+          19,
+          19,
+          43,
+          13,
+          40,
+          51,
+          44,
+          40,
+          29,
+          37
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Pyrenean Mountain Dog"
+        ],
+        "counts": [
+          114,
+          118,
+          88,
+          102,
+          68,
+          157,
+          46,
+          95,
+          64,
+          40
+        ]
+      }
+    },
+    "collie": {
+      "AU": {
+        "labels": [
+          "Collie (Smooth)"
+        ],
+        "counts": [
+          36,
+          33,
+          27,
+          27,
+          38,
+          57,
+          26,
+          45,
+          40,
+          38
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Collie (Smooth)"
+        ],
+        "counts": [
+          89,
+          60,
+          77,
+          75,
+          72,
+          90,
+          44,
+          45,
+          29,
+          56
+        ]
+      }
+    },
+    "german-shorthaired-pointer": {
+      "AU": {
+        "labels": [
+          "German Shorthaired Pointer"
+        ],
+        "counts": [
+          930,
+          812,
+          1030,
+          878,
+          995,
+          1393,
+          1183,
+          821,
+          828,
+          777
+        ]
+      },
+      "UK": {
+        "labels": [
+          "German Shorthaired Pointer"
+        ],
+        "counts": [
+          1485,
+          1646,
+          1769,
+          1573,
+          1761,
+          2596,
+          1943,
+          1386,
+          1313,
+          947
+        ]
+      }
+    },
+    "english-setter": {
+      "AU": {
+        "labels": [
+          "English Setter"
+        ],
+        "counts": [
+          69,
+          50,
+          91,
+          70,
+          93,
+          67,
+          54,
+          43,
+          88,
+          59
+        ]
+      },
+      "UK": {
+        "labels": [
+          "English Setter"
+        ],
+        "counts": [
+          285,
+          261,
+          290,
+          267,
+          140,
+          293,
+          212,
+          250,
+          185,
+          176
+        ]
+      }
+    },
+    "old-english-sheepdog": {
+      "AU": {
+        "labels": [
+          "Old English Sheepdog"
+        ],
+        "counts": [
+          64,
+          65,
+          64,
+          80,
+          94,
+          66,
+          74,
+          73,
+          39,
+          38
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Old English Sheepdog"
+        ],
+        "counts": [
+          424,
+          384,
+          318,
+          317,
+          227,
+          377,
+          333,
+          359,
+          241,
+          218
+        ]
+      }
+    },
+    "american-cocker-spaniel": {
+      "AU": {
+        "labels": [
+          "Cocker Spaniel (American)"
+        ],
+        "counts": [
+          85,
+          80,
+          81,
+          86,
+          89,
+          68,
+          74,
+          90,
+          57,
+          60
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Spaniel (American Cocker)"
+        ],
+        "counts": [
+          270,
+          252,
+          190,
+          267,
+          204,
+          251,
+          232,
+          163,
+          143,
+          90
+        ]
+      }
+    },
+    "cairn-terrier": {
+      "AU": {
+        "labels": [
+          "Cairn Terrier"
+        ],
+        "counts": [
+          232,
+          219,
+          222,
+          274,
+          258,
+          281,
+          175,
+          208,
+          177,
+          171
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Cairn Terrier"
+        ],
+        "counts": [
+          683,
+          589,
+          567,
+          464,
+          443,
+          498,
+          492,
+          437,
+          467,
+          447
+        ]
+      }
+    },
+    "italian-greyhound": {
+      "AU": {
+        "labels": [
+          "Italian Greyhound"
+        ],
+        "counts": [
+          486,
+          607,
+          624,
+          616,
+          670,
+          795,
+          764,
+          657,
+          512,
+          584
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Italian Greyhound"
+        ],
+        "counts": [
+          326,
+          346,
+          426,
+          390,
+          544,
+          571,
+          593,
+          611,
+          541,
+          659
+        ]
+      }
+    },
+    "miniature-pinscher": {
+      "AU": {
+        "labels": [
+          "Miniature Pinscher"
+        ],
+        "counts": [
+          195,
+          204,
+          211,
+          195,
+          208,
+          188,
+          145,
+          166,
+          139,
+          99
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Miniature Pinscher"
+        ],
+        "counts": [
+          287,
+          380,
+          335,
+          285,
+          308,
+          383,
+          329,
+          226,
+          142,
+          132
+        ]
+      }
+    },
+    "belgian-malinois": {
+      "AU": {
+        "labels": [
+          "Belgian Shepherd (Malin)"
+        ],
+        "counts": [
+          134,
+          151,
+          163,
+          199,
+          228,
+          198,
+          267,
+          210,
+          239,
+          275
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Belgian Shepherd Dog (Malinois)"
+        ],
+        "counts": [
+          187,
+          292,
+          250,
+          274,
+          311,
+          429,
+          459,
+          306,
+          384,
+          226
+        ]
+      }
+    },
+    "chesapeake-bay-retriever": {
+      "AU": {
+        "labels": [
+          "Chesapeake Bay Retriever"
+        ],
+        "counts": [
+          50,
+          23,
+          55,
+          43,
+          57,
+          63,
+          34,
+          14,
+          20,
+          8
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Retriever (Chesapeake Bay)"
+        ],
+        "counts": [
+          86,
+          107,
+          97,
+          86,
+          43,
+          58,
+          64,
+          58,
+          43,
+          31
+        ]
+      }
+    },
+    "flat-coated-retriever": {
+      "AU": {
+        "labels": [
+          "Flat Coated Retriever"
+        ],
+        "counts": [
+          79,
+          49,
+          81,
+          94,
+          77,
+          76,
+          82,
+          56,
+          44,
+          58
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Retriever (Flat Coated)"
+        ],
+        "counts": [
+          1348,
+          1098,
+          1146,
+          1171,
+          1068,
+          1544,
+          1141,
+          958,
+          869,
+          764
+        ]
+      }
+    },
+    "nova-scotia-duck-tolling-retriever": {
+      "AU": {
+        "labels": [
+          "Nova Scotia Duck Tolling Ret."
+        ],
+        "counts": [
+          86,
+          98,
+          90,
+          128,
+          117,
+          162,
+          142,
+          109,
+          195,
+          180
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Retriever (Nova Scotia Duck Tolling)"
+        ],
+        "counts": [
+          180,
+          271,
+          189,
+          178,
+          284,
+          303,
+          225,
+          212,
+          312,
+          313
+        ]
+      }
+    },
+    "giant-schnauzer": {
+      "AU": {
+        "labels": [
+          "Schnauzer (Giant)"
+        ],
+        "counts": [
+          21,
+          26,
+          12,
+          32,
+          8,
+          57,
+          31,
+          9,
+          41,
+          19
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Giant Schnauzer"
+        ],
+        "counts": [
+          242,
+          276,
+          211,
+          282,
+          124,
+          225,
+          171,
+          175,
+          143,
+          155
+        ]
+      }
+    },
+    "keeshond": {
+      "AU": {
+        "labels": [
+          "Keeshond"
+        ],
+        "counts": [
+          156,
+          94,
+          141,
+          150,
+          126,
+          175,
+          128,
+          119,
+          112,
+          87
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Keeshond"
+        ],
+        "counts": [
+          109,
+          91,
+          80,
+          89,
+          82,
+          134,
+          51,
+          103,
+          51,
+          61
+        ]
+      }
+    },
+    "australian-kelpie": {
+      "AU": {
+        "labels": [
+          "Australian Kelpie"
+        ],
+        "counts": [
+          185,
+          193,
+          196,
+          186,
+          180,
+          194,
+          183,
+          89,
+          99,
+          123
+        ]
+      }
+    },
+    "norwegian-elkhound": {
+      "AU": {
+        "labels": [
+          "Norwegian Elkhound"
+        ],
+        "counts": [
+          37,
+          19,
+          23,
+          48,
+          16,
+          34,
+          21,
+          22,
+          11,
+          18
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Norwegian Elkhound"
+        ],
+        "counts": [
+          48,
+          61,
+          34,
+          34,
+          40,
+          73,
+          39,
+          47,
+          34,
+          30
+        ]
+      }
+    },
+    "finnish-spitz": {
+      "AU": {
+        "labels": [
+          "Finnish Spitz"
+        ],
+        "counts": [
+          2,
+          4,
+          3,
+          0,
+          7,
+          2,
+          10,
+          0,
+          0,
+          0
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Finnish Spitz"
+        ],
+        "counts": [
+          14,
+          13,
+          16,
+          9,
+          5,
+          17,
+          17,
+          15,
+          1,
+          4
+        ]
+      }
+    },
+    "border-terrier": {
+      "AU": {
+        "labels": [
+          "Border Terrier"
+        ],
+        "counts": [
+          237,
+          158,
+          181,
+          193,
+          182,
+          216,
+          243,
+          181,
+          149,
+          156
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Border Terrier"
+        ],
+        "counts": [
+          5150,
+          5130,
+          5245,
+          4353,
+          4587,
+          5930,
+          4494,
+          4018,
+          3675,
+          3181
+        ]
+      }
+    },
+    "scottish-terrier": {
+      "AU": {
+        "labels": [
+          "Scottish Terrier"
+        ],
+        "counts": [
+          178,
+          221,
+          188,
+          178,
+          220,
+          223,
+          186,
+          164,
+          144,
+          201
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Scottish Terrier"
+        ],
+        "counts": [
+          454,
+          453,
+          438,
+          468,
+          466,
+          656,
+          584,
+          406,
+          387,
+          312
+        ]
+      }
+    },
+    "welsh-terrier": {
+      "AU": {
+        "labels": [
+          "Welsh Terrier"
+        ],
+        "counts": [
+          45,
+          40,
+          26,
+          51,
+          39,
+          23,
+          6,
+          22,
+          24,
+          30
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Welsh Terrier"
+        ],
+        "counts": [
+          401,
+          388,
+          325,
+          376,
+          412,
+          417,
+          397,
+          331,
+          218,
+          190
+        ]
+      }
+    },
+    "rough-collie": {
+      "AU": {
+        "labels": [
+          "Collie (Rough)"
+        ],
+        "counts": [
+          290,
+          321,
+          362,
+          307,
+          307,
+          348,
+          238,
+          151,
+          262,
+          139
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Collie (Rough)"
+        ],
+        "counts": [
+          668,
+          724,
+          687,
+          531,
+          516,
+          667,
+          499,
+          431,
+          453,
+          345
+        ]
+      }
+    }
+  },
+  "groups": {
+    "poodle": {
+      "AU": {
+        "labels": [
+          "Poodle (Standard)",
+          "Poodle (Miniature)",
+          "Poodle (Toy)"
+        ],
+        "counts": [
+          1956,
+          1966,
+          1841,
+          1862,
+          2091,
+          2352,
+          2339,
+          1758,
+          1347,
+          1307
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Poodle (Standard)",
+          "Poodle (Miniature)",
+          "Poodle (Toy)"
+        ],
+        "counts": [
+          3302,
+          3462,
+          3688,
+          3516,
+          4048,
+          5532,
+          5064,
+          4675,
+          4011,
+          3813
+        ]
+      }
+    },
+    "german-spitz": {
+      "AU": {
+        "labels": [
+          "Pomeranian",
+          "Keeshond",
+          "German Spitz (Klein)",
+          "German Spitz (Mittel)"
+        ],
+        "counts": [
+          734,
+          743,
+          743,
+          759,
+          786,
+          803,
+          666,
+          475,
+          532,
+          419
+        ]
+      },
+      "UK": {
+        "labels": [
+          "Pomeranian",
+          "Keeshond",
+          "German Spitz (Klein)",
+          "German Spitz (Mittel)"
+        ],
+        "counts": [
+          1266,
+          1408,
+          1556,
+          1726,
+          1924,
+          2902,
+          2688,
+          2420,
+          1980,
+          1682
+        ]
+      }
+    }
+  },
+  "specialPopulations": {
+    "greyhound": {
+      "basisCount": 50000,
+      "multiplier": 5,
+      "lowMultiplier": 2,
+      "highMultiplier": 15,
+      "method": "racing-stock",
+      "source": "https://www.grey2kusa.org/about/worldwide.php",
+      "note": "GREY2K USA Worldwide, an advocacy organization, reports more than 50,000 Greyhounds at commercial tracks. Use 50,000 as a rough anchor. Multipliers of 2, 5 and 15 are model assumptions covering retired pets, breeding stock and non-commercial dogs, not observed totals. Kennel-club registrations alone omit most racing dogs."
+    }
+  },
+  "worldwide": {
+    "reference": 900000000,
+    "low": 700000000,
+    "high": 1000000000,
+    "mixedShare": 0.75,
+    "mixedShareLow": 0.65,
+    "mixedShareHigh": 0.85,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Dog#Population",
+        "note": "Published overview reports a 700 million to 1 billion global range, referring to 2020 estimates. This is a broad scale benchmark, not a 2026 census."
+      },
+      {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/26483491/",
+        "note": "Shannon et al. 2015 identifies village dogs as far more populous than purebred dogs. It does not measure the 75% share used here."
+      }
+    ],
+    "note": "900 million is a reference scenario. The 75% mixed/village share and 65–85% sensitivity range are explicit assumptions, not observed global ancestry proportions. Free-ranging status is not the same as mixed ancestry. Mixed/village dogs are one mutually exclusive group, including owned mixed dogs and non-standardized village dogs but excluding purebred dogs already counted under a breed. Singapore Specials are included in this group, not added again. Unlisted breeds are an unallocated remainder, not an independently estimated total."
+  }
+}

@@ -1,0 +1,77 @@
+[
+  {
+    "id": "mixed-breed-dogs",
+    "name": "Mixed-breed dogs",
+    "size": null,
+    "possibleSizes": [
+      "small",
+      "medium",
+      "large"
+    ],
+    "category": "Mixed-breed dogs",
+    "variableTraits": true,
+    "aliases": [
+      "mongrel",
+      "mongrels",
+      "mutt",
+      "mutts",
+      "mixed breed",
+      "crossbreed",
+      "cross breed",
+      "village dog",
+      "Singapore Special",
+      "Singapore Specials"
+    ],
+    "photo": "Another Mixed Breed.jpg",
+    "gallery": [
+      "01-Kundel mixed breed dog.jpg",
+      "A senior mixed breed dog (51051357731).jpg"
+    ],
+    "profile": {
+      "energy": null,
+      "experience": null,
+      "exercise": null,
+      "grooming": null,
+      "shedding": null,
+      "apartment": null,
+      "children": null,
+      "working": null
+    },
+    "stats": {
+      "trainability": null,
+      "energy": null,
+      "exercise": null,
+      "stimulation": null,
+      "sociability": null,
+      "independence": null,
+      "shedding": null,
+      "grooming": null,
+      "barking": null
+    },
+    "facts": {
+      "weight": "Varies by dog",
+      "height": "Varies by dog",
+      "lifespan": "Varies by size, ancestry, and individual health",
+      "coat": "Any coat type",
+      "purpose": "Companionship and many other roles",
+      "exercise": "Match activity to the individual dog"
+    },
+    "disadvantages": [
+      "Size, shedding, energy, and temperament vary. Choose an individual dog whose needs fit your home.",
+      "Ancestry alone cannot establish whether a dog will suit children, other dogs, or a first-time owner.",
+      "Puppies may have an uncertain adult size. An adult dog’s size and observed behavior give you more information."
+    ],
+    "products": {
+      "grooming": "Choose grooming tools for the individual dog’s coat."
+    },
+    "variations": {
+      "summary": "Includes mixed-breed pets, crossbreeds, and non-standardized village dogs. Singapore Specials are Singapore’s local mixed-breed dogs, not one standardized breed. The photos show examples of mixed-breed dogs, not specifically Singapore Specials.",
+      "colors": []
+    },
+    "adoptionUrl": "https://sosd.org.sg/adopt-a-dog/",
+    "contentSources": [
+      "https://pubmed.ncbi.nlm.nih.gov/26483491/"
+    ],
+    "summary": "Many looks, sizes, and personalities. Includes Singapore Specials."
+  }
+]

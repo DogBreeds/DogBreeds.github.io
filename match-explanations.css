@@ -1,0 +1,44 @@
+/* Explain quiz ranking without changing normal browse cards. */
+.ranked-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ranked-breed-card { height: 100%; }
+.ranked-breed-card .card-body { display: flex; flex-direction: column; min-height: 330px; }
+.match-why {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--soft-line);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .79rem;
+  font-weight: 500;
+  line-height: 1.42;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.match-why-title {
+  margin-bottom: 7px;
+  color: var(--green-dark);
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .09em;
+}
+.match-why ul { margin: 0; padding-left: 17px; }
+.match-why li + li { margin-top: 5px; }
+.match-comparison {
+  margin: 11px 0 0;
+  padding: 9px 10px;
+  border-left: 4px solid var(--blue);
+  background: var(--cream-2);
+  color: var(--brown);
+  font-weight: 700;
+}
+.match-tradeoff { margin: 9px 0 0; color: var(--muted); }
+.match-tradeoff strong { color: var(--salmon-dark); }
+.comparison-note { border-top: 1px solid var(--soft-line); padding-top: 7px; }
+
+@media (max-width: 1100px) {
+  .ranked-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .ranked-grid { grid-template-columns: 1fr; }
+  .ranked-breed-card .card-body { min-height: 0; }
+}

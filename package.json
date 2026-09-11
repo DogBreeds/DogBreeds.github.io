@@ -1,0 +1,8 @@
+{
+  "name": "top-dog",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-site.mjs",
+    "test": "node scripts/check-matching.mjs && node scripts/check-single-player.mjs && node scripts/check-family.mjs && node scripts/build-populations.mjs --check"
+  }
+}
