@@ -1702,8 +1702,29 @@ function scoreBreedForQuiz(breed, a) {
 }
 
 function renderInlineAllBreeds() {
-  renderResults([...BREEDS].sort((a,b) => a.name.localeCompare(b.name)), "home-results", "All breeds");
-  document.getElementById("home-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const target = document.getElementById("home-results");
+  if (!target) return;
+  const sizeOrder = ["small", "medium", "large"];
+  const groups = sizeOrder.map(size => ({
+    size,
+    breeds: BREEDS
+      .filter(breed => breed.size === size)
+      .sort((a, b) => a.name.localeCompare(b.name))
+  }));
+
+  target.innerHTML = `
+    <div class="results-header"><h2>All breeds</h2><div class="count">${BREEDS.length} breeds</div></div>
+    ${groups.map(group => `
+      <section class="breed-size-group">
+        <div class="breed-size-heading">
+          <h3>${esc(SIZE_LABELS[group.size])} dogs</h3>
+          <div class="count">${group.breeds.length} breed${group.breeds.length === 1 ? "" : "s"}</div>
+        </div>
+        <div class="breed-grid">${group.breeds.map(breedCard).join("")}</div>
+      </section>`).join("")}`;
+  attachBreedLinks(target);
+  activateDynamicCardPhotos(target);
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function renderResults(breeds, targetId, title) {
