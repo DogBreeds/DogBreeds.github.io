@@ -1340,7 +1340,7 @@ function renderHome() {
     stage.scrollIntoView({ behavior: "smooth", block: "start" });
   });
   document.getElementById("browse-all").addEventListener("click", () => {
-    document.getElementById("home-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    renderInlineAllBreeds();
   });
   setupQuiz();
   renderResults([...BREEDS].sort((a,b) => a.name.localeCompare(b.name)), "home-results", "All breeds");
